@@ -23,7 +23,7 @@ SOURCES += \
     model/info_panel_model.cpp
 
 RESOURCES += \
-    #$$files(qml/*.qml) \
+    $$files(qml/*.qml) \
     qml.qrc
 
 # Default rules for deployment.
