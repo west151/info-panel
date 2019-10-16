@@ -27,19 +27,18 @@ void sweep_message_output(QtMsgType type, const QMessageLogContext &context, con
 int main(int argc, char *argv[])
 {
     QGuiApplication::setApplicationVersion("1.0");
-    QGuiApplication::setOrganizationName("qsweep");
-    QGuiApplication::setOrganizationDomain("sweep-system");
+    QGuiApplication::setOrganizationName("info-panel");
+    QGuiApplication::setOrganizationDomain("info-panel-system");
 
 #ifdef QT_DEBUG
     qInstallMessageHandler(sweep_message_output);
 #endif
 
     QGuiApplication app(argc, argv);
-//    core_sweep_remote_control core(app.applicationName());
 
-//    bool init_state = core.initialization();
-
-//    core.program_launch(init_state);
+    core_info_panel core;
+    bool init_state = core.initialization();
+    core.program_launch(init_state);
 
     return app.exec();
 }

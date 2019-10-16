@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
-        <file>qml/Top.qml</file>
-        <file>qml/TopForm.ui.qml</file>
+        <file>qml/InfoPanel.qml</file>
+        <file>qml/InfoPanelForm.ui.qml</file>
     </qresource>
 </RCC>

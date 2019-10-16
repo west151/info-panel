@@ -6,13 +6,13 @@ ApplicationWindow {
     id: window
     objectName: "mainWindow"
     visible: true
-    width: 500
-    height: 700
-    title: qsTr("Remote control")
+    width: 700
+    height: 500
+    title: qsTr("Info panel")
 
-    Top{
-        id: idTopForm
-        objectName: "topForm"
-        width: window.width
+    InfoPanel{
+        id: idInfoPanel
+        objectName: "infoPanel"
+//        width: window.width
     }
 }

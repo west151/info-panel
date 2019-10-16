@@ -4,11 +4,13 @@
 #include <QObject>
 #include <QQmlApplicationEngine>
 
+class info_panel_model;
+
 class core_info_panel : public QObject
 {
     Q_OBJECT
 public:
-    explicit core_info_panel(const QString &app_name, QObject *parent = nullptr);
+    explicit core_info_panel(QObject *parent = nullptr);
 
     // read file settings
     bool initialization();
@@ -20,13 +22,9 @@ signals:
 public slots:
 
 private:
-    QString str_config_location;
+    info_panel_model* ptr_info_panel_model {Q_NULLPTR};
 
     QQmlApplicationEngine* ptr_engine {Q_NULLPTR};
-
-
-//    bool read_settings();
-//    bool write_settings();
 };
 
 #endif // CORE_SWEEP_REMOTE_CONTROL_H

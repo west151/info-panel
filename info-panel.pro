@@ -15,14 +15,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
-    core_info_panel.h
+    core_info_panel.h \
+    model/info_panel_model.h
 
 SOURCES += \
     core_info_panel.cpp \
-    info_panel.cpp
+    info_panel.cpp \
+    model/info_panel_model.cpp
 
 RESOURCES += \
-    $$files(qml/*.qml) \
+    #$$files(qml/*.qml) \
     qml.qrc
 
 # Default rules for deployment.

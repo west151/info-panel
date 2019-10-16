@@ -1,6 +1,7 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.13
 
 Item {
-    width: 400
-    height: 400
+    width: 700
+    height: 500
 }
