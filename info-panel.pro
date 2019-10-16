@@ -1,7 +1,6 @@
-QT += quick mqtt sql
+QT += quick
 
-#include(../../common.pri)
-#include(../../protocol.pri)
+include(common.pri)
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -28,5 +27,5 @@ RESOURCES += \
     qml.qrc
 
 # Default rules for deployment.
-#unix: target.path = /opt/qsweepremotecontrol/bin
+#unix: target.path = /opt/info_panel/bin
 #!isEmpty(target.path): INSTALLS += target
