@@ -13,6 +13,7 @@ ApplicationWindow {
     InfoPanel{
         id: idInfoPanel
         objectName: "infoPanel"
-//        width: window.width
+        width: window.width
+        height: window.height
     }
 }
