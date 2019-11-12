@@ -5,6 +5,7 @@
 #include <QQmlApplicationEngine>
 
 class info_panel_model;
+class system_info_model;
 
 class core_info_panel : public QObject
 {
@@ -23,6 +24,7 @@ public slots:
 
 private:
     info_panel_model* ptr_info_panel_model {Q_NULLPTR};
+    system_info_model* ptr_system_info_model {Q_NULLPTR};
 
     QQmlApplicationEngine* ptr_engine {Q_NULLPTR};
 };
