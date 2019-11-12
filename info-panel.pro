@@ -33,5 +33,5 @@ RESOURCES += \
     qml.qrc
 
 # Default rules for deployment.
-#unix: target.path = /opt/info_panel/bin
-#!isEmpty(target.path): INSTALLS += target
+unix: target.path = /opt/info_panel/bin
+!isEmpty(target.path): INSTALLS += target
