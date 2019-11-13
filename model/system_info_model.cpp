@@ -62,8 +62,8 @@ QVariant system_info_model::headerData(int section, Qt::Orientation orientation,
 QHash<int, QByteArray> system_info_model::roleNames() const
 {
     static QHash<int, QByteArray> roles {
-        {DATAROLE_PARAMETER_NAME, "parameter"},
-        {DATAROLE_PARAMETER_VALUE, "value"}
+        {DATAROLE_PARAMETER_NAME, "parameter_name"},
+        {DATAROLE_PARAMETER_VALUE, "parameter_value"}
     };
     return roles;
 }

@@ -23,6 +23,12 @@ system_info::system_info() : data(new system_info_data)
 {
 }
 
+system_info::system_info(const QString &name, const QString &value): data(new system_info_data)
+{
+    data->m_parameter = name;
+    data->m_value = value;
+}
+
 system_info::system_info(const system_info &rhs) : data(rhs.data)
 {
 }

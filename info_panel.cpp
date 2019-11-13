@@ -1,4 +1,9 @@
 #include <QGuiApplication>
+#include <QFontDatabase>
+
+#ifdef QT_DEBUG
+    #include <QDebug>
+#endif
 
 #include "core_info_panel.h"
 
@@ -26,15 +31,29 @@ void sweep_message_output(QtMsgType type, const QMessageLogContext &context, con
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication::setApplicationVersion("1.0");
-    QGuiApplication::setOrganizationName("info-panel");
-    QGuiApplication::setOrganizationDomain("info-panel-system");
 
 #ifdef QT_DEBUG
     qInstallMessageHandler(sweep_message_output);
 #endif
 
     QGuiApplication app(argc, argv);
+
+    QGuiApplication::setApplicationVersion("1.0");
+    QGuiApplication::setOrganizationName("info-panel");
+    QGuiApplication::setOrganizationDomain("info-panel-system");
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    QFont font_old;
+    int id = QFontDatabase::addApplicationFont("://fonts/opensans/OpenSans-Semibold.ttf");
+    QString family = QFontDatabase::applicationFontFamilies(id).at(0);
+    QFont font_family(family);
+    app.setFont(font_family);
+
+#ifdef QT_DEBUG
+    qDebug() << QObject::tr("Font system:") << font_old.family();
+    qDebug() << QObject::tr("Install font:") << app.font().family();
+#endif
 
     core_info_panel core;
     bool init_state = core.initialization();

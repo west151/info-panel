@@ -25,7 +25,7 @@ Item {
             id: btn_reboot_system
             x: 8
             width: 130
-            text: qsTr("Перезагрузить")
+            text: qsTr("Reboot")
             anchors.top: parent.top
             anchors.topMargin: 12
             anchors.left: parent.left
@@ -38,7 +38,7 @@ Item {
             id: btn_shutdown_system
             x: 282
             width: 130
-            text: qsTr("Выключить")
+            text: qsTr("Shutdown")
             anchors.top: parent.top
             anchors.topMargin: 12
             anchors.right: parent.right

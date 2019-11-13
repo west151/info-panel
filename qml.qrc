@@ -3,5 +3,23 @@
         <file>qml/main.qml</file>
         <file>qml/InfoPanel.qml</file>
         <file>qml/InfoPanelForm.ui.qml</file>
+        <file>fonts/opensans/OpenSans-Bold.ttf</file>
+        <file>fonts/opensans/OpenSans-BoldItalic.ttf</file>
+        <file>fonts/opensans/OpenSans-ExtraBold.ttf</file>
+        <file>fonts/opensans/OpenSans-ExtraBoldItalic.ttf</file>
+        <file>fonts/opensans/OpenSans-Italic.ttf</file>
+        <file>fonts/opensans/OpenSans-Light.ttf</file>
+        <file>fonts/opensans/OpenSans-LightItalic.ttf</file>
+        <file>fonts/opensans/OpenSans-Regular.ttf</file>
+        <file>fonts/opensans/OpenSans-Semibold.ttf</file>
+        <file>fonts/opensans/OpenSans-SemiboldItalic.ttf</file>
+        <file>fonts/ubuntu/Ubuntu-B.ttf</file>
+        <file>fonts/ubuntu/Ubuntu-BI.ttf</file>
+        <file>fonts/ubuntu/Ubuntu-L.ttf</file>
+        <file>fonts/ubuntu/Ubuntu-LI.ttf</file>
+        <file>fonts/ubuntu/Ubuntu-M.ttf</file>
+        <file>fonts/ubuntu/Ubuntu-MI.ttf</file>
+        <file>fonts/ubuntu/Ubuntu-R.ttf</file>
+        <file>fonts/ubuntu/Ubuntu-RI.ttf</file>
     </qresource>
 </RCC>

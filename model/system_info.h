@@ -10,6 +10,7 @@ class system_info
 {
 public:
     system_info();
+    system_info(const QString &name, const QString &value);
     system_info(const system_info &);
     system_info &operator=(const system_info &);
     ~system_info();
