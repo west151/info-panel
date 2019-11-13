@@ -33,7 +33,7 @@ InfoPanelForm {
                     anchors.verticalCenter: parent.verticalCenter
                     font.pointSize: 13
                 }
-                spacing: 10
+                spacing: 20
             }
         }
     }
