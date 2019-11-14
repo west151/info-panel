@@ -16,36 +16,31 @@ InfoPanelForm {
     Component {
         id: system_info_delegate
 
-        Item {
-            id: mainItem
+        Rectangle {
+            id: main_rectangle
             x: 5
             width: list_view_sysinfo.width
-            height: idTextInfo.height
+            height: id_text_info.height
+            color: alt_color(index % 2)
 
             Row {
                 id: idRow
                 anchors.verticalCenter: parent.verticalCenter
 
                 Text {
-                    id: idTextInfo
-                    width: mainItem.width
+                    id: id_text_info
+                    width: main_rectangle.width
                     text: parameter_name + " :  " + parameter_value
                     wrapMode: Text.WordWrap
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 13
+                    font.pointSize: 15
                 }
-                spacing: 20
+                spacing: 50
             }
 
             function alt_color(i) {
                 var colors = [ "#E4DDE8", "#00000000" ];
                 return colors[i];
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                opacity: 0.5
-                color: alt_color(index % 2)
             }
         }
     }
