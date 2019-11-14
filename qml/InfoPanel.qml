@@ -19,23 +19,23 @@ InfoPanelForm {
         Rectangle {
             id: main_rectangle
             x: 5
-            width: list_view_sysinfo.width
-            height: id_text_info.height
+            width: list_view_sysinfo.width - 5
+            height: id_text_info.height + 10
             color: alt_color(index % 2)
 
             Row {
-                id: idRow
+                id: id_row
                 anchors.verticalCenter: parent.verticalCenter
 
                 Text {
                     id: id_text_info
-                    width: main_rectangle.width
+                    width: main_rectangle.width - 5
                     text: parameter_name + " :  " + parameter_value
                     wrapMode: Text.WordWrap
                     anchors.verticalCenter: parent.verticalCenter
                     font.pointSize: 15
                 }
-                spacing: 50
+                //spacing: 50
             }
 
             function alt_color(i) {
