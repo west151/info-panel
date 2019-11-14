@@ -3,7 +3,7 @@ import QtQuick.Controls 2.13
 
 Item {
     id: element1
-    width: 700
+    width: 720
     height: 500
     property alias system_dt_text: system_dt_text
     property alias list_view_sysinfo: list_view_sysinfo
@@ -62,10 +62,12 @@ Item {
 
     Item {
         id: element2
-        x: 8
-        y: 66
-        width: 684
-        height: 426
+        width: 700
+        anchors.top: parent.top
+        anchors.topMargin: 74
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
 
         ListView {
             id: list_view_sysinfo

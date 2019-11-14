@@ -15,6 +15,7 @@ InfoPanelForm {
 
     Component {
         id: system_info_delegate
+
         Item {
             id: mainItem
             x: 5
@@ -34,6 +35,17 @@ InfoPanelForm {
                     font.pointSize: 13
                 }
                 spacing: 20
+            }
+
+            function alt_color(i) {
+                var colors = [ "#E4DDE8", "#00000000" ];
+                return colors[i];
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                opacity: 0.5
+                color: alt_color(index % 2)
             }
         }
     }
