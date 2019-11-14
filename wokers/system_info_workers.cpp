@@ -3,13 +3,21 @@
 #include <QSysInfo>
 #include <QHostInfo>
 #include <QNetworkInterface>
+#include <QMetaEnum>
 
 static const QMap<QString, QNetworkInterface::InterfaceType> interface_type_name
 {
     {"Ethernet", QNetworkInterface::Ethernet},
     {"Wifi", QNetworkInterface::Wifi},
-    {"Loopback", QNetworkInterface::Loopback}
+    {"Loopback", QNetworkInterface::Loopback},
+    {"Unknown", QNetworkInterface::Unknown}
 };
+
+template<typename QEnum>
+QString QtEnumToString (const QEnum value)
+{
+  return QString(QMetaEnum::fromType<QEnum>().valueToKey(value));
+}
 
 system_info_workers::system_info_workers(QObject *parent) : QObject(parent)
 {
@@ -45,41 +53,27 @@ void system_info_workers::slot_start_workers()
     QString local_host_name =  QHostInfo::localHostName();
     emit signal_result_system_info(system_info(tr("localhost name"), local_host_name));
 
-//    QString local_mac_address;
-//    QString local_netmask;
-//    foreach (const QNetworkInterface& network_interface, QNetworkInterface::allInterfaces()) {
-//        foreach (const QNetworkAddressEntry& entry, network_interface.addressEntries()) {
-//            if (entry.ip().toString() == local_host_ip) {
-//                local_mac_address = network_interface.hardwareAddress();
-//                local_netmask = entry.netmask().toString();
-//                break;
-//            }
-//        }
-//    }
-
-
-//    emit signal_result_system_info(system_info(tr("ip"), local_host_ip));
-//    emit signal_result_system_info(system_info(tr("mac"), local_mac_address));
-//    emit signal_result_system_info(system_info(tr("netmask"), local_netmask));
-
-
-//    foreach (const QNetworkInterface &netInterface, QNetworkInterface::allInterfaces()) {
-//        QNetworkInterface::InterfaceFlags flags = netInterface.flags();
-//        if( (bool)(flags & QNetworkInterface::IsRunning) && !(bool)(flags & QNetworkInterface::IsLoopBack)){
-//            foreach (const QNetworkAddressEntry &address, netInterface.addressEntries()) {
-//                if(address.ip().protocol() == QAbstractSocket::IPv4Protocol)
-//                    qDebug() << "->" << address.ip().toString();
-//            }
-//        }
-//    }
-
     QList<QNetworkInterface> all_interfaces = QNetworkInterface::allInterfaces();
 
-    for(QNetworkInterface eth: all_interfaces){
-        QList<QNetworkAddressEntry> all_entries = eth.addressEntries();
+    for(QNetworkInterface net_interface: all_interfaces){
+        QList<QNetworkAddressEntry> all_entries = net_interface.addressEntries();
         for(QNetworkAddressEntry entry: all_entries){
             if(entry.ip().protocol() == QAbstractSocket::IPv4Protocol){
-                qDebug() << "IPv4:" << interface_type_name.key(eth.type(), tr("unknown")) << ":" << eth.name() << ":" << entry.ip().toString() << "/" << entry.netmask().toString();
+                QString param_name;
+                QString param_value;
+
+                param_name.append(tr("IPv4: "));
+                param_name.append(interface_type_name.key(net_interface.type(), QtEnumToString(net_interface.type())));
+                param_name.append(tr(": "));
+                param_name.append(net_interface.name());
+
+                param_value.append(entry.ip().toString());
+                param_value.append(tr(" / "));
+                param_value.append(entry.netmask().toString());
+                if(!net_interface.hardwareAddress().isEmpty())
+                    param_value.append(tr(" [%1]").arg(net_interface.hardwareAddress()));
+
+                emit signal_result_system_info(system_info(param_name, param_value));
             }
         }
     }
