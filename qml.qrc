@@ -21,5 +21,7 @@
         <file>fonts/ubuntu/Ubuntu-MI.ttf</file>
         <file>fonts/ubuntu/Ubuntu-R.ttf</file>
         <file>fonts/ubuntu/Ubuntu-RI.ttf</file>
+        <file>qml/DMesgViewer.qml</file>
+        <file>qml/DMesgViewerForm.ui.qml</file>
     </qresource>
 </RCC>
