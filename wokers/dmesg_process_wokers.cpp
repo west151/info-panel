@@ -72,7 +72,9 @@ void dmesg_process_wokers::slot_run_dmesg()
         qDebug() << tr("environment:") << QProcess::systemEnvironment();
 #endif
     }else{
+#ifdef QT_DEBUG
         qDebug() << tr("PID:") << ptr_process->pid() << ptr_process->processId() << ptr_process->program();
+#endif
     }
 }
 
