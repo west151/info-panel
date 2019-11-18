@@ -23,7 +23,7 @@ ApplicationWindow {
             height: id_swipe_view.height
         }
 
-        DMesgViewerForm {
+        DMesgViewer {
             id: id_dmesg_viewer
         }
     }

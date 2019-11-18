@@ -46,62 +46,46 @@ InfoPanelForm {
     }
 
     system_dt_text {
-        text: info_panel_model.system_time
+        text: user_interface.system_time
     }
-}
 
 
-//mouseAreaUpdate.onPressed: {
-//    console.log("mouseAreaUpdate.onPressed:")
-//    messageLogModel.clearMessageLogData()
-//    userInterface.onUpdate()
-//}
+//    Component {
+//        id: viewDelegate
+//        Item {
+//            id: mainItem
+//            x: 5
+//            width: listViewResult.width
+//            height: 40
 
-//mouseAreaClose.onPressed: {
-//    console.log("mouseAreaClose.onPressed:")
-//    userInterface.onAppQuit()
-//}
-
-//// model
-//listViewResult.model: dmesgSortFilterProxyModel;
-//// delegate
-//listViewResult.delegate: viewDelegate
-//// delegate
-//Component {
-//    id: viewDelegate
-//    Item {
-//        id: mainItem
-//        x: 5
-//        width: listViewResult.width
-//        height: 40
-
-//        Rectangle {
-//            width: mainItem.width
-//            height: mainItem.height
-//            color: index % 2 == 0 ? "blue" : "grey"
-//        }
-
-//        Row {
-//            id: row
-//            anchors.verticalCenter: parent.verticalCenter
-//            width: mainItem.width
-
-//            Text {
-//                id: idMessageId
-//                text: message_id
-//                anchors.verticalCenter: parent.verticalCenter
-//                font.pointSize: 10
+//            Rectangle {
+//                width: mainItem.width
+//                height: mainItem.height
+//                color: index % 2 == 0 ? "blue" : "grey"
 //            }
 
-//            Text {
-//                id: idMessageText
-//                width: mainItem.width - idMessageId.width
-//                text: message_text
-//                wrapMode: Text.WordWrap
+//            Row {
+//                id: row
 //                anchors.verticalCenter: parent.verticalCenter
-//                font.pointSize: 10
+//                width: mainItem.width
+
+//                Text {
+//                    id: idMessageId
+//                    text: message_id
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    font.pointSize: 10
+//                }
+
+//                Text {
+//                    id: idMessageText
+//                    width: mainItem.width - idMessageId.width
+//                    text: message_text
+//                    wrapMode: Text.WordWrap
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    font.pointSize: 10
+//                }
+//                spacing: 5
 //            }
-//            spacing: 5
 //        }
 //    }
-//}
+}

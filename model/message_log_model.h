@@ -28,8 +28,9 @@ public:
     int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
 
-    void add_data_to_model(const message_log &value);
-    void remove_data_from_model();
+public slots:
+    void slot_add_data_to_model(const message_log &value);
+    void slot_remove_data_from_model();
 
 private:
     QMap<int, QString> m_columns_map;

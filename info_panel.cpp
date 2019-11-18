@@ -36,13 +36,13 @@ int main(int argc, char *argv[])
     qInstallMessageHandler(sweep_message_output);
 #endif
 
-    QGuiApplication app(argc, argv);
-
     QGuiApplication::setApplicationVersion("1.0");
     QGuiApplication::setOrganizationName("info-panel");
     QGuiApplication::setOrganizationDomain("info-panel-system");
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    QGuiApplication app(argc, argv);
 
     QFont font_old;
     int id = QFontDatabase::addApplicationFont("://fonts/opensans/OpenSans-Semibold.ttf");

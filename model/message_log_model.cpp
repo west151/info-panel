@@ -84,14 +84,14 @@ bool message_log_model::removeRows(int row, int count, const QModelIndex &parent
     return true;
 }
 
-void message_log_model::add_data_to_model(const message_log &value)
+void message_log_model::slot_add_data_to_model(const message_log &value)
 {
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
     m_data.append(value);
     endInsertRows();
 }
 
-void message_log_model::remove_data_from_model()
+void message_log_model::slot_remove_data_from_model()
 {
     if(m_data.size()>0) {
         beginRemoveRows(QModelIndex(), 0, m_data.size() - 1);
