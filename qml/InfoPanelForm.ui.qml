@@ -24,7 +24,7 @@ Item {
         Button {
             id: btn_reboot_system
             x: 8
-            width: 130
+            width: 150
             text: qsTr("Reboot")
             anchors.top: parent.top
             anchors.topMargin: 12
@@ -37,7 +37,7 @@ Item {
         Button {
             id: btn_shutdown_system
             x: 282
-            width: 130
+            width: 150
             text: qsTr("Shutdown")
             anchors.top: parent.top
             anchors.topMargin: 12

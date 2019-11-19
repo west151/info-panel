@@ -2,90 +2,59 @@ import QtQuick 2.4
 
 InfoPanelForm {
 
-    list_view_sysinfo {
-        clip: true
-        focus: true
-        model: system_info_model
-        delegate: system_info_delegate
-
-        onCountChanged: {
-            list_view_sysinfo.positionViewAtEnd()
-        }
-    }
-
-    Component {
-        id: system_info_delegate
-
-        Rectangle {
-            id: main_rectangle
-            x: 5
-            width: list_view_sysinfo.width - 5
-            height: id_text_info.height + 10
-            color: alt_color(index % 2)
-
-            Row {
-                id: id_row
-                anchors.verticalCenter: parent.verticalCenter
-
-                Text {
-                    id: id_text_info
-                    width: main_rectangle.width - 5
-                    text: parameter_name + " :  " + parameter_value
-                    wrapMode: Text.WordWrap
-                    anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 12
-                }
-                //spacing: 50
-            }
-
-            function alt_color(i) {
-                var colors = [ "#E4DDE8", "#00000000" ];
-                return colors[i];
-            }
-        }
-    }
-
     system_dt_text {
         text: user_interface.system_time
     }
 
+    list_view_sysinfo {
+        id: id_list_view_sysinfo
+        clip: true
+        focus: true
+        model: system_info_model
+        delegate: id_system_info_delegate
 
-//    Component {
-//        id: viewDelegate
-//        Item {
-//            id: mainItem
-//            x: 5
-//            width: listViewResult.width
-//            height: 40
+        onCountChanged: {
+            id_list_view_sysinfo.positionViewAtEnd()
+        }
+    }
 
-//            Rectangle {
-//                width: mainItem.width
-//                height: mainItem.height
-//                color: index % 2 == 0 ? "blue" : "grey"
-//            }
+    Component {
+        id: id_system_info_delegate
 
-//            Row {
-//                id: row
-//                anchors.verticalCenter: parent.verticalCenter
-//                width: mainItem.width
+        Item {
+            id: id_main_item
+            x: 5
+            width: id_list_view_sysinfo.width
+            height: id_parameter_value.height
 
-//                Text {
-//                    id: idMessageId
-//                    text: message_id
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    font.pointSize: 10
-//                }
+            Rectangle {
+                width: id_list_view_sysinfo.width
+                height: id_main_item.height
+                color: index % 2 == 0 ? "#00000000" : "#E4DDE8"
+            }
 
-//                Text {
-//                    id: idMessageText
-//                    width: mainItem.width - idMessageId.width
-//                    text: message_text
-//                    wrapMode: Text.WordWrap
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    font.pointSize: 10
-//                }
-//                spacing: 5
-//            }
-//        }
-//    }
+            Row {
+                id: row
+                anchors.verticalCenter: parent.verticalCenter
+                width: id_main_item.width
+
+                Text {
+                    id: id_parameter_name
+                    text: parameter_name + " : "
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.pointSize: 10
+                }
+
+                Text {
+                    id: id_parameter_value
+                    width: id_main_item.width - id_parameter_name.width
+                    text: parameter_value
+                    wrapMode: Text.WordWrap
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.pointSize: 10
+                }
+                spacing: 10
+            }
+        }
+    }
 }
