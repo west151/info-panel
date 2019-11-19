@@ -10,6 +10,7 @@
 #include "model/message_log_model.h"
 #include "wokers/system_info_workers.h"
 #include "wokers/dmesg_process_wokers.h"
+#include "wokers/system_ctrl_workers.h"
 
 #ifdef QT_DEBUG
 #include <QDebug>
@@ -22,6 +23,7 @@ core_info_panel::core_info_panel(QObject *parent) : QObject(parent),
 {
     qRegisterMetaType<system_info>("system_info");
     qRegisterMetaType<message_log>("message_log");
+    qRegisterMetaType<sys_ctrl_cmd>("sys_ctrl_cmd");
 }
 
 bool core_info_panel::initialization()
@@ -50,6 +52,15 @@ bool core_info_panel::initialization()
 
     connect(ptr_user_interface, &user_interface::signal_run_dmesg,
             ptr_dmesg_process_wokers, &dmesg_process_wokers::slot_run_dmesg);
+
+    ptr_dmesg_process_thread->start();
+
+    ptr_system_ctrl_workers = new system_ctrl_workers;
+    ptr_dmesg_process_thread = new QThread;
+    ptr_system_ctrl_workers->moveToThread(ptr_dmesg_process_thread);
+
+    connect(ptr_user_interface, &user_interface::signal_run_ctrl,
+            ptr_system_ctrl_workers, &system_ctrl_workers::slot_run_ctrl);
 
     ptr_dmesg_process_thread->start();
 

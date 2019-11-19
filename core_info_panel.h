@@ -10,6 +10,7 @@ class system_info_model;
 class system_info_workers;
 class message_log_model;
 class dmesg_process_wokers;
+class system_ctrl_workers;
 
 class core_info_panel : public QObject
 {
@@ -37,6 +38,9 @@ private:
 
     dmesg_process_wokers* ptr_dmesg_process_wokers {Q_NULLPTR};
     QPointer<QThread> ptr_dmesg_process_thread;
+
+    system_ctrl_workers* ptr_system_ctrl_workers {Q_NULLPTR};
+    QPointer<QThread> ptr_system_ctrl_thread;
 
     QQmlApplicationEngine* ptr_engine {Q_NULLPTR};
 };

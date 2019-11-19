@@ -2,6 +2,14 @@ import QtQuick 2.4
 
 InfoPanelForm {
 
+    btn_reboot_system.onClicked: {
+        user_interface.on_reboot_system();
+    }
+
+    btn_shutdown_system.onClicked: {
+        user_interface.on_shutdown_system();
+    }
+
     system_dt_text {
         text: user_interface.system_time
     }

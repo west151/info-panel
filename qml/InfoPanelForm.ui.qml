@@ -62,12 +62,8 @@ Item {
 
     Item {
         id: element2
-        width: 700
-        anchors.top: parent.top
-        anchors.topMargin: 74
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
+        anchors.topMargin: 66
+        anchors.fill: parent
 
         ListView {
             id: list_view_sysinfo

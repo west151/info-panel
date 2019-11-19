@@ -1,8 +1,16 @@
 #include "dmesg_process_wokers.h"
 
+#include <QMetaEnum>
+
 #ifdef QT_DEBUG
 #include <QDebug>
 #endif
+
+template<typename QEnum>
+QString QtEnumToString (const QEnum value)
+{
+  return QString(QMetaEnum::fromType<QEnum>().valueToKey(value));
+}
 
 dmesg_process_wokers::dmesg_process_wokers(QObject *parent) : QObject(parent)
 {
@@ -17,7 +25,7 @@ void dmesg_process_wokers::slot_started()
 void dmesg_process_wokers::slot_error(QProcess::ProcessError error)
 {
 #ifdef QT_DEBUG
-    qDebug() << tr("error:") << error;
+    qDebug() << tr("error:") << QtEnumToString(error);
 #endif
 }
 
@@ -26,7 +34,7 @@ void dmesg_process_wokers::slot_finished(int exit_code, QProcess::ExitStatus exi
     QProcess *ptr_process = dynamic_cast<QProcess *>(sender());
 
 #ifdef QT_DEBUG
-    qDebug() << tr("finished (%1):").arg(ptr_process->objectName()) << exit_code << exit_status;
+    qDebug() << tr("finished (%1):").arg(ptr_process->objectName()) << exit_code << QtEnumToString(exit_status);
 #endif
 }
 

@@ -16,13 +16,13 @@ signals:
     void signal_message_log_data(const message_log &);
 
 public slots:
-    void slot_started();
-    void slot_error(QProcess::ProcessError error);
-    void slot_finished(int exit_code, QProcess::ExitStatus exit_status);
     void slot_run_dmesg();
 
 private slots:
+    void slot_started();
     void slot_ready_read_standard_output();
+    void slot_error(QProcess::ProcessError error);
+    void slot_finished(int exit_code, QProcess::ExitStatus exit_status);
 
 private:
     void parser_line(const QString &);

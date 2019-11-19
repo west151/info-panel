@@ -21,7 +21,9 @@ HEADERS += \
     model/system_info.h \
     model/system_info_model.h \
     model/user_interface.h \
+    shared/local_const.h \
     wokers/dmesg_process_wokers.h \
+    wokers/system_ctrl_workers.h \
     wokers/system_info_workers.h
 
 SOURCES += \
@@ -34,6 +36,7 @@ SOURCES += \
     model/system_info_model.cpp \
     model/user_interface.cpp \
     wokers/dmesg_process_wokers.cpp \
+    wokers/system_ctrl_workers.cpp \
     wokers/system_info_workers.cpp
 
 RESOURCES += \

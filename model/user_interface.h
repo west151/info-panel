@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QDateTime>
 
+#include "shared/local_const.h"
+
 class QTimer;
 
 class user_interface : public QObject
@@ -17,10 +19,13 @@ public:
     QString system_time()const;
 
     Q_INVOKABLE void on_update_dmesg();
+    Q_INVOKABLE void on_reboot_system();
+    Q_INVOKABLE void on_shutdown_system();
 
 signals:
     void signal_time_changed();
     void signal_run_dmesg();
+    void signal_run_ctrl(const sys_ctrl_cmd &);
 
 private:
     QDateTime m_system_time;

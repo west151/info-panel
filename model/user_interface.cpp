@@ -27,6 +27,16 @@ void user_interface::on_update_dmesg()
     emit signal_run_dmesg();
 }
 
+void user_interface::on_reboot_system()
+{
+    emit signal_run_ctrl(sys_ctrl_cmd::reboot_system);
+}
+
+void user_interface::on_shutdown_system()
+{
+    emit signal_run_ctrl(sys_ctrl_cmd::shutdown_system);
+}
+
 void user_interface::slot_system_time_update()
 {
     m_system_time = QDateTime::currentDateTime();
