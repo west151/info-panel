@@ -14,6 +14,7 @@ public:
 
 signals:
     void signal_message_log_data(const message_log &);
+    void signal_vector_message_log_data(const QVector<message_log> &);
 
 public slots:
     void slot_run_dmesg();

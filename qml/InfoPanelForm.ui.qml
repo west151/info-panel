@@ -12,63 +12,52 @@ Item {
 
 
     Item {
-        id: element
-        height: 60
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        anchors.top: parent.top
-        anchors.topMargin: 0
-
-        Button {
-            id: btn_reboot_system
-            x: 8
-            width: 150
-            text: qsTr("Reboot")
-            anchors.top: parent.top
-            anchors.topMargin: 12
-            anchors.left: parent.left
-            anchors.leftMargin: 8
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8
-        }
-
-        Button {
-            id: btn_shutdown_system
-            x: 282
-            width: 150
-            text: qsTr("Shutdown")
-            anchors.top: parent.top
-            anchors.topMargin: 12
-            anchors.right: parent.right
-            anchors.rightMargin: 8
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8
-        }
-
-        Text {
-            id: system_dt_text
-            x: 313
-            text: qsTr("00:00:00")
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 17
-            anchors.top: parent.top
-            anchors.topMargin: 21
-            font.pixelSize: 19
-        }
-    }
-
-    Item {
         id: element2
-        anchors.topMargin: 66
+        anchors.rightMargin: 8
+        anchors.bottomMargin: 8
+        anchors.leftMargin: 8
+        anchors.topMargin: 68
         anchors.fill: parent
 
         ListView {
             id: list_view_sysinfo
             anchors.fill: parent
         }
+    }
+
+    Button {
+        id: btn_reboot_system
+        x: 8
+        y: 12
+        width: 150
+        text: qsTr("Reboot")
+        anchors.top: parent.top
+        anchors.topMargin: 12
+        anchors.left: parent.left
+        anchors.leftMargin: 8
+    }
+
+    Button {
+        id: btn_shutdown_system
+        x: 562
+        y: 12
+        width: 150
+        text: qsTr("Shutdown")
+        anchors.top: parent.top
+        anchors.topMargin: 12
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+    }
+
+    Text {
+        id: system_dt_text
+        x: 323
+        y: 21
+        text: qsTr("00:00:00")
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 21
+        font.pixelSize: 19
     }
 }
 

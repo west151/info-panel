@@ -5,6 +5,7 @@ Item {
     id: element1
     width: 720
     height: 500
+    property alias text_dmesg_filter: text_dmesg_filter
     property alias btn_update_dmesg: btn_update_dmesg
     property alias list_view_dmesg: list_view_dmesg
 
@@ -37,6 +38,17 @@ Item {
         text: qsTr("Update")
         anchors.right: parent.right
         anchors.rightMargin: 8
+        anchors.top: parent.top
+        anchors.topMargin: 8
+    }
+
+    TextField {
+        id: text_dmesg_filter
+        width: 343
+        height: 40
+        text: ""
+        anchors.left: parent.left
+        anchors.leftMargin: 8
         anchors.top: parent.top
         anchors.topMargin: 8
     }

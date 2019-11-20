@@ -30,6 +30,7 @@ public:
 
 public slots:
     void slot_add_data_to_model(const message_log &value);
+    void slot_add_vector_data_to_model(const QVector<message_log> &value);
     void slot_remove_data_from_model();
 
 private:

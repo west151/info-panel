@@ -21,11 +21,13 @@ public:
     Q_INVOKABLE void on_update_dmesg();
     Q_INVOKABLE void on_reboot_system();
     Q_INVOKABLE void on_shutdown_system();
+    Q_INVOKABLE void on_change_filter_text(const QString &);
 
 signals:
     void signal_time_changed();
     void signal_run_dmesg();
     void signal_run_ctrl(const sys_ctrl_cmd &);
+    void signal_change_filter_text(const QString &);
 
 private:
     QDateTime m_system_time;

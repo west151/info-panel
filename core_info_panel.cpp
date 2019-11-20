@@ -8,6 +8,7 @@
 #include "model/user_interface.h"
 #include "model/system_info_model.h"
 #include "model/message_log_model.h"
+#include "model/sort_filter_proxy_model.h"
 #include "wokers/system_info_workers.h"
 #include "wokers/dmesg_process_wokers.h"
 #include "wokers/system_ctrl_workers.h"
@@ -19,11 +20,19 @@
 core_info_panel::core_info_panel(QObject *parent) : QObject(parent),
     ptr_user_interface(new user_interface(this)),
     ptr_system_info_model(new system_info_model(this)),
-    ptr_message_log_model(new message_log_model(this))
+    ptr_message_log_model(new message_log_model(this)),
+    ptr_sort_filter_proxy_model(new sort_filter_proxy_model(this))
 {
     qRegisterMetaType<system_info>("system_info");
     qRegisterMetaType<message_log>("message_log");
+    qRegisterMetaType<QVector<message_log> >("QVector<message_log>");
     qRegisterMetaType<sys_ctrl_cmd>("sys_ctrl_cmd");
+    qRegisterMetaType<data_log_type>("data_log_type");
+
+    ptr_sort_filter_proxy_model->setSourceModel(ptr_message_log_model);    
+
+    connect(ptr_user_interface, &user_interface::signal_change_filter_text,
+            this, &core_info_panel::slot_filter_text_changed);
 }
 
 bool core_info_panel::initialization()
@@ -69,17 +78,25 @@ bool core_info_panel::initialization()
 
 void core_info_panel::program_launch(bool is_init_state)
 {
+    Q_UNUSED(is_init_state)
+
     ptr_engine = new QQmlApplicationEngine(this);
 
     QQmlContext *context = ptr_engine->rootContext();
     context->setContextProperty("user_interface", ptr_user_interface);
     context->setContextProperty("system_info_model", ptr_system_info_model);
-    context->setContextProperty("dmesg_process_wokers", ptr_dmesg_process_wokers);
     context->setContextProperty("message_log_model", ptr_message_log_model);
+    context->setContextProperty("sort_filter_proxy_model", ptr_sort_filter_proxy_model);
 
     ptr_engine->load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     ptr_user_interface->start();
 
     QTimer::singleShot(1000, this, &core_info_panel::signal_start);
+}
+
+void core_info_panel::slot_filter_text_changed(const QString &value)
+{
+    QRegExp reg_exp(value.toLower(), Qt::CaseSensitive, QRegExp::FixedString);
+    ptr_sort_filter_proxy_model->setFilterRegExp(reg_exp);
 }

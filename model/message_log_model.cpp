@@ -28,7 +28,7 @@ QVariant message_log_model::data(const QModelIndex &index, int role) const
                 switch (index.column()) {
                 case MC_LOG_ID:
                     return param.message_log_id();
-                case DATAROLE_LOG_TEXT:
+                case MC_LOG_TEXT:
                     return param.message_log_text();
                 default:
                     break;
@@ -40,7 +40,6 @@ QVariant message_log_model::data(const QModelIndex &index, int role) const
             case DATAROLE_LOG_TEXT:
                 return  param.message_log_text();
             default:
-                Q_ASSERT("Не установлен обработчик возвращаемого результата");
                 break;
             }
         }
@@ -89,6 +88,21 @@ void message_log_model::slot_add_data_to_model(const message_log &value)
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
     m_data.append(value);
     endInsertRows();
+}
+
+void message_log_model::slot_add_vector_data_to_model(const QVector<message_log> &value)
+{
+    if(m_data.size() > 0) {
+        beginRemoveRows(QModelIndex(), 0, m_data.size() - 1);
+        m_data.clear();
+        endRemoveRows();
+    }
+
+    if(value.size() > 0) {
+        beginInsertRows(QModelIndex(), value.size(), value.size() - 1);
+        m_data.append(value);
+        endInsertRows();
+    }
 }
 
 void message_log_model::slot_remove_data_from_model()

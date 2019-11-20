@@ -3,6 +3,14 @@ import QtQuick 2.4
 DMesgViewerForm {
     id: id_dmesg_viewer
 
+    text_dmesg_filter {
+        placeholderText: qsTr("Enter text")
+        onTextChanged: {
+            console.log("onTextChanged: " + text_dmesg_filter.text)
+            user_interface.on_change_filter_text(text_dmesg_filter.text)
+        }
+    }
+
     btn_update_dmesg.onClicked: {
         message_log_model.slot_remove_data_from_model();
         user_interface.on_update_dmesg();
@@ -11,7 +19,7 @@ DMesgViewerForm {
     list_view_dmesg {
         clip: true
         focus: true
-        model: message_log_model
+        model: sort_filter_proxy_model
         delegate: id_view_delegate
 
         onCountChanged: {

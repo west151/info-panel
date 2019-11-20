@@ -37,6 +37,11 @@ void user_interface::on_shutdown_system()
     emit signal_run_ctrl(sys_ctrl_cmd::shutdown_system);
 }
 
+void user_interface::on_change_filter_text(const QString &value)
+{
+    emit signal_change_filter_text(value);
+}
+
 void user_interface::slot_system_time_update()
 {
     m_system_time = QDateTime::currentDateTime();

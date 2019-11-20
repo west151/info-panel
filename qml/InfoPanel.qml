@@ -1,13 +1,39 @@
 import QtQuick 2.4
+import QtQuick.Controls 1.2
+import QtQuick.Dialogs 1.2
 
 InfoPanelForm {
 
     btn_reboot_system.onClicked: {
-        user_interface.on_reboot_system();
+        id_reboot_dialog.visible = true
+    }
+
+    MessageDialog {
+        id: id_reboot_dialog
+        title: qsTr("Reboot ?")
+        icon: StandardIcon.Question
+        text: qsTr("Restart the system now ?")
+        //detailedText: "" + ""
+        standardButtons: StandardButton.Yes | StandardButton.No
+        Component.onCompleted: visible = false
+        onYes: user_interface.on_reboot_system()
+        onNo: console.log("StandardButton.No")
     }
 
     btn_shutdown_system.onClicked: {
-        user_interface.on_shutdown_system();
+        id_shutdown_dialog.visible = true
+    }
+
+    MessageDialog {
+        id: id_shutdown_dialog
+        title: qsTr("Shutdown ?")
+        icon: StandardIcon.Question
+        text: qsTr("Shutdown the system now ?")
+        //detailedText: "" + ""
+        standardButtons: StandardButton.Yes | StandardButton.No
+        Component.onCompleted: visible = false
+        onYes: user_interface.on_shutdown_system();
+        onNo: console.log("StandardButton.No")
     }
 
     system_dt_text {

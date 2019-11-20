@@ -11,6 +11,7 @@ class system_info_workers;
 class message_log_model;
 class dmesg_process_wokers;
 class system_ctrl_workers;
+class sort_filter_proxy_model;
 
 class core_info_panel : public QObject
 {
@@ -28,10 +29,14 @@ signals:
 
 public slots:
 
+private slots:
+    void slot_filter_text_changed(const QString &);
+
 private:
     user_interface* ptr_user_interface {Q_NULLPTR};
     system_info_model* ptr_system_info_model {Q_NULLPTR};
     message_log_model* ptr_message_log_model {Q_NULLPTR};
+    sort_filter_proxy_model* ptr_sort_filter_proxy_model {Q_NULLPTR};
 
     system_info_workers* ptr_system_info_workers {Q_NULLPTR};
     QPointer<QThread> ptr_system_info_thread;
