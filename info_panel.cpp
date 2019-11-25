@@ -31,6 +31,7 @@ void sweep_message_output(QtMsgType type, const QMessageLogContext &context, con
 
 int main(int argc, char *argv[])
 {
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
 
 #ifdef QT_DEBUG
     qInstallMessageHandler(sweep_message_output);

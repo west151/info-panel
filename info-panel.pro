@@ -1,4 +1,4 @@
-QT += quick
+QT += quick bluetooth
 
 include(common.pri)
 
