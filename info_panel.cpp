@@ -43,6 +43,8 @@ int main(int argc, char *argv[])
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+    // QLocale::setDefault(QLocale(QLocale::Russian, QLocale::Russia));
+
     QGuiApplication app(argc, argv);
 
     QFont font_old;

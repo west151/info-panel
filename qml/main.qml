@@ -1,6 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.VirtualKeyboard 2.3
+import QtQuick.VirtualKeyboard.Settings 2.0
 
 ApplicationWindow {
     id: id_window
@@ -47,6 +48,10 @@ ApplicationWindow {
         x: 0
         y: id_window.height
         width: id_window.width
+
+        Component.onCompleted:{
+            VirtualKeyboardSettings.activeLocales = ["en_GB", "ru_RU"]
+        }
 
         states: State {
             name: "visible"
