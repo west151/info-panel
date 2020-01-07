@@ -3,6 +3,7 @@
 
 #ifdef QT_DEBUG
     #include <QDebug>
+    #include <QScreen>
 #endif
 
 #include "core_info_panel.h"
@@ -47,6 +48,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    // fonts
     QFont font_old;
     int id = QFontDatabase::addApplicationFont("://fonts/opensans/OpenSans-Semibold.ttf");
     QString family = QFontDatabase::applicationFontFamilies(id).at(0);
@@ -58,6 +60,22 @@ int main(int argc, char *argv[])
     qDebug() << QObject::tr("Install font:") << app.font().family();
 #endif
 
+#ifdef QT_DEBUG
+    // screens
+    QList<QScreen*> screens = qApp->screens();
+
+    for(int i = 0; i < screens.size(); ++i)
+    {
+        qDebug() << QObject::tr("Screen:");
+        qDebug() << QObject::tr("   id:") << i;
+        qDebug() << QObject::tr("   name:") << screens.at(i)->name();
+        qDebug() << QObject::tr("   model:") << screens.at(i)->model();
+        qDebug() << QObject::tr("   manufacturer:") << screens.at(i)->manufacturer();
+        qDebug() << QObject::tr("   serial:") << screens.at(i)->serialNumber();
+        qDebug() << QObject::tr("   width:") << screens.at(i)->availableSize().width();
+        qDebug() << QObject::tr("   height:") << screens.at(i)->availableSize().height();
+    }
+#endif
     core_info_panel core;
     bool init_state = core.initialization();
     core.program_launch(init_state);

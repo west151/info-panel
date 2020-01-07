@@ -1,6 +1,7 @@
 #include "system_ctrl_workers.h"
 
 #include <QMetaEnum>
+#include <QStringList>
 
 #ifdef QT_DEBUG
 #include <QDebug>
