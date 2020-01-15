@@ -6,12 +6,15 @@
 #include <QQmlApplicationEngine>
 
 class user_interface;
+
 class system_info_model;
-class system_info_workers;
 class message_log_model;
+class sort_filter_proxy_model;
+
+class system_info_workers;
 class dmesg_process_wokers;
 class system_ctrl_workers;
-class sort_filter_proxy_model;
+class bluetooth_discovery_workers;
 
 class core_info_panel : public QObject
 {
@@ -46,6 +49,9 @@ private:
 
     system_ctrl_workers* ptr_system_ctrl_workers {Q_NULLPTR};
     QPointer<QThread> ptr_system_ctrl_thread;
+
+    bluetooth_discovery_workers* ptr_bluetooth_discovery_workers {Q_NULLPTR};
+    QPointer<QThread> ptr_bluetooth_discovery_thread;
 
     QQmlApplicationEngine* ptr_engine {Q_NULLPTR};
 };

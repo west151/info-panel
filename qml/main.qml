@@ -27,6 +27,10 @@ ApplicationWindow {
         DMesgViewer {
             id: id_dmesg_viewer
         }
+
+        BluetoothDiscovery {
+            id: id_bluetooth_discovery
+        }
     }
 
     footer: TabBar {
@@ -39,6 +43,10 @@ ApplicationWindow {
 
         TabButton {
             text: qsTr("System log")
+        }
+
+        TabButton {
+            text: qsTr("Bluetooth")
         }
     }
 

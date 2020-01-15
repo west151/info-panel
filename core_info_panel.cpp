@@ -12,6 +12,7 @@
 #include "wokers/system_info_workers.h"
 #include "wokers/dmesg_process_wokers.h"
 #include "wokers/system_ctrl_workers.h"
+#include "wokers/bluetooth_discovery_workers.h"
 
 #ifdef QT_DEBUG
 #include <QDebug>
@@ -51,7 +52,7 @@ bool core_info_panel::initialization()
 
     ptr_system_info_thread->start();
 
-    //
+    // dmesg process
     ptr_dmesg_process_wokers = new dmesg_process_wokers;
     ptr_dmesg_process_thread = new QThread;
     ptr_dmesg_process_wokers->moveToThread(ptr_dmesg_process_thread);
@@ -72,6 +73,19 @@ bool core_info_panel::initialization()
             ptr_system_ctrl_workers, &system_ctrl_workers::slot_run_ctrl);
 
     ptr_dmesg_process_thread->start();
+
+    // bluetooth discovery
+    ptr_bluetooth_discovery_workers = new bluetooth_discovery_workers;
+    ptr_bluetooth_discovery_thread = new QThread;
+    ptr_bluetooth_discovery_workers->moveToThread(ptr_bluetooth_discovery_thread);
+
+    connect(ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::signal_result_system_info,
+            ptr_system_info_model, &system_info_model::add_data_to_model);
+
+    connect(this, &core_info_panel::signal_start,
+            ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::slot_start_workers);
+
+    ptr_bluetooth_discovery_thread->start();
 
     return status;
 }
