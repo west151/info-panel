@@ -3,6 +3,7 @@
 
 #include <QSharedData>
 #include <QMetaType>
+#include <QDateTime>
 
 class bluetooth_device_info_data;
 
@@ -19,6 +20,9 @@ public:
 
     void set_name(const QString &);
     QString name()const;
+
+    void set_date_time(const QDateTime &);
+    QDateTime date_time()const;
 
 private:
     QSharedDataPointer<bluetooth_device_info_data> data;

@@ -4,6 +4,7 @@ bluetooth_device_model::bluetooth_device_model(QObject *parent): QAbstractTableM
 {
     m_columns_map.insert(MC_ADDRESS, tr("address"));
     m_columns_map.insert(MC_NAME, tr("name"));
+    m_columns_map.insert(MC_DATE_TIME, tr("date_time"));
 }
 
 bluetooth_device_model::~bluetooth_device_model()
@@ -26,6 +27,8 @@ QVariant bluetooth_device_model::data(const QModelIndex &index, int role) const
             switch(role){
             case Qt::DisplayRole: {
                 switch (index.column()) {
+                case MC_DATE_TIME:
+                    return param.date_time().toLocalTime();
                 case MC_ADDRESS:
                     return param.address();
                 case MC_NAME:
@@ -35,6 +38,8 @@ QVariant bluetooth_device_model::data(const QModelIndex &index, int role) const
                 }
                 break;
             }
+            case DATAROLE_DATE_TIME:
+                return param.date_time().toLocalTime();
             case DATAROLE_ADDRESS:
                 return param.address();
             case DATAROLE_NAME:
@@ -61,7 +66,8 @@ QHash<int, QByteArray> bluetooth_device_model::roleNames() const
 {
     static QHash<int, QByteArray> roles {
         {DATAROLE_ADDRESS, "address"},
-        {DATAROLE_NAME, "name"}
+        {DATAROLE_NAME, "name"},
+        {DATAROLE_DATE_TIME, "date_time"}
     };
     return roles;
 }
@@ -85,9 +91,18 @@ bool bluetooth_device_model::removeRows(int row, int count, const QModelIndex &p
 
 void bluetooth_device_model::slot_add_data_to_model(const bluetooth_device_info &value)
 {
-    beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
-    m_data.append(value);
-    endInsertRows();
+    if(is_address(value)) {
+        for(int i = 0; i < m_data.size(); ++i )
+            if(m_data.at(i).address() == value.address()){
+                beginResetModel();
+                m_data[i] = value;
+                endResetModel();
+            }
+    } else {
+        beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
+        m_data.append(value);
+        endInsertRows();
+    }
 }
 
 void bluetooth_device_model::slot_remove_data_from_model()
@@ -97,4 +112,13 @@ void bluetooth_device_model::slot_remove_data_from_model()
         m_data.clear();
         endRemoveRows();
     }
+}
+
+bool bluetooth_device_model::is_address(const bluetooth_device_info &info)
+{
+    for(int i = 0; i < m_data.size(); ++i )
+        if(m_data.at(i).address() == info.address())
+            return true;
+
+    return false;
 }

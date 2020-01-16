@@ -11,12 +11,14 @@ class bluetooth_device_model : public QAbstractTableModel
 public:
     enum data_role {
         DATAROLE_ADDRESS = Qt::UserRole + 1,
-        DATAROLE_NAME
+        DATAROLE_NAME,
+        DATAROLE_DATE_TIME
     };
 
     enum model_columns {
         MC_ADDRESS,
-        MC_NAME
+        MC_NAME,
+        MC_DATE_TIME
     };
 
     explicit bluetooth_device_model(QObject *parent = Q_NULLPTR);
@@ -36,6 +38,8 @@ public slots:
 private:
     QMap<int, QString> m_columns_map;
     QVector<bluetooth_device_info> m_data;
+
+    bool is_address(const bluetooth_device_info &);
 };
 
 #endif // BLUETOOTH_DEVICE_MODEL_H

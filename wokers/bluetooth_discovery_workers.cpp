@@ -52,15 +52,12 @@ void bluetooth_discovery_workers::slot_scan_finished()
 
 void bluetooth_discovery_workers::slot_add_device(const QBluetoothDeviceInfo &info)
 {
-    QString label = QString("%1 %2 [%3]")
-            .arg(info.address().toString())
-            .arg(info.name())
-            .arg(service_classes_descr(info.serviceClasses()).join(","));
+    bluetooth_device_info data;
+    data.set_date_time(QDateTime::currentDateTimeUtc());
+    data.set_address(info.address().toString());
+    data.set_name(info.name());
 
-#ifdef QT_DEBUG
-    qDebug() << label;
-#endif
-
+    emit signal_bluetooth_device_info(data);
 }
 
 QStringList bluetooth_discovery_workers::service_classes_descr(const QBluetoothDeviceInfo::ServiceClasses &service_info) const

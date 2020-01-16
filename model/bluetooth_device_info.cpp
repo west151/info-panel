@@ -11,12 +11,14 @@ public:
     {
         m_address = other.m_address;
         m_name = other.m_name;
+        m_dt = other.m_dt;
     }
 
     ~bluetooth_device_info_data() {}
 
     QString m_address;
     QString m_name;
+    QDateTime m_dt;
 };
 
 bluetooth_device_info::bluetooth_device_info() : data(new bluetooth_device_info_data)
@@ -57,4 +59,14 @@ void bluetooth_device_info::set_name(const QString &value)
 QString bluetooth_device_info::name() const
 {
     return data->m_name;
+}
+
+void bluetooth_device_info::set_date_time(const QDateTime &value)
+{
+    data->m_dt = value;
+}
+
+QDateTime bluetooth_device_info::date_time() const
+{
+    return data->m_dt;
 }

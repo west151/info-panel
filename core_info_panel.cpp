@@ -9,6 +9,8 @@
 #include "model/system_info_model.h"
 #include "model/message_log_model.h"
 #include "model/sort_filter_proxy_model.h"
+#include "model/bluetooth_device_model.h"
+
 #include "wokers/system_info_workers.h"
 #include "wokers/dmesg_process_wokers.h"
 #include "wokers/system_ctrl_workers.h"
@@ -22,13 +24,15 @@ core_info_panel::core_info_panel(QObject *parent) : QObject(parent),
     ptr_user_interface(new user_interface(this)),
     ptr_system_info_model(new system_info_model(this)),
     ptr_message_log_model(new message_log_model(this)),
-    ptr_sort_filter_proxy_model(new sort_filter_proxy_model(this))
+    ptr_sort_filter_proxy_model(new sort_filter_proxy_model(this)),
+    ptr_bluetooth_device_model(new bluetooth_device_model(this))
 {
     qRegisterMetaType<system_info>("system_info");
     qRegisterMetaType<message_log>("message_log");
     qRegisterMetaType<QVector<message_log> >("QVector<message_log>");
     qRegisterMetaType<sys_ctrl_cmd>("sys_ctrl_cmd");
     qRegisterMetaType<data_log_type>("data_log_type");
+    qRegisterMetaType<bluetooth_device_info>("bluetooth_device_info");
 
     ptr_sort_filter_proxy_model->setSourceModel(ptr_message_log_model);    
 
@@ -79,8 +83,13 @@ bool core_info_panel::initialization()
     ptr_bluetooth_discovery_thread = new QThread;
     ptr_bluetooth_discovery_workers->moveToThread(ptr_bluetooth_discovery_thread);
 
+    // info
     connect(ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::signal_result_system_info,
             ptr_system_info_model, &system_info_model::add_data_to_model);
+
+    // bluetooth device info
+    connect(ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::signal_bluetooth_device_info,
+            ptr_bluetooth_device_model, &bluetooth_device_model::slot_add_data_to_model);
 
     connect(this, &core_info_panel::signal_start,
             ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::slot_start_workers);
@@ -101,6 +110,7 @@ void core_info_panel::program_launch(bool is_init_state)
     context->setContextProperty("system_info_model", ptr_system_info_model);
     context->setContextProperty("message_log_model", ptr_message_log_model);
     context->setContextProperty("sort_filter_proxy_model", ptr_sort_filter_proxy_model);
+    context->setContextProperty("bluetooth_device_model", ptr_bluetooth_device_model);
 
     ptr_engine->load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 

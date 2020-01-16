@@ -23,5 +23,7 @@
         <file>fonts/ubuntu/Ubuntu-RI.ttf</file>
         <file>qml/DMesgViewer.qml</file>
         <file>qml/DMesgViewerForm.ui.qml</file>
+        <file>qml/BluetoothDiscovery.qml</file>
+        <file>qml/BluetoothDiscoveryForm.ui.qml</file>
     </qresource>
 </RCC>

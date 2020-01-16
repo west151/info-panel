@@ -10,6 +10,7 @@ class user_interface;
 class system_info_model;
 class message_log_model;
 class sort_filter_proxy_model;
+class bluetooth_device_model;
 
 class system_info_workers;
 class dmesg_process_wokers;
@@ -40,6 +41,7 @@ private:
     system_info_model* ptr_system_info_model {Q_NULLPTR};
     message_log_model* ptr_message_log_model {Q_NULLPTR};
     sort_filter_proxy_model* ptr_sort_filter_proxy_model {Q_NULLPTR};
+    bluetooth_device_model* ptr_bluetooth_device_model {Q_NULLPTR};
 
     system_info_workers* ptr_system_info_workers {Q_NULLPTR};
     QPointer<QThread> ptr_system_info_thread;

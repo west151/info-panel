@@ -7,6 +7,7 @@
 #include <QBluetoothDeviceInfo>
 
 #include "../model/system_info.h"
+#include "../model/bluetooth_device_info.h"
 
 class bluetooth_discovery_workers : public QObject
 {
@@ -16,6 +17,7 @@ public:
 
 signals:
     void signal_result_system_info(const system_info &);
+    void signal_bluetooth_device_info(const bluetooth_device_info &);
 
 public slots:
     void slot_start_workers();
