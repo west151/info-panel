@@ -5,6 +5,7 @@ Item {
     id: element
     width: 720
     height: 500
+    property alias btn_scan_device: btn_scan_device
     property alias list_device_view: list_device_view
 
     ListView {
@@ -17,6 +18,18 @@ Item {
         anchors.bottomMargin: 8
         anchors.top: parent.top
         anchors.topMargin: 59
+    }
+
+    Button {
+        id: btn_scan_device
+        x: 642
+        width: 70
+        height: 40
+        text: qsTr("Scan")
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        anchors.top: parent.top
+        anchors.topMargin: 8
     }
 }
 

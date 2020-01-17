@@ -22,6 +22,11 @@ QString user_interface::system_time() const
     return m_system_time.toString("hh:mm:ss dd.MM.yyyy (t)");
 }
 
+QString user_interface::scan_state() const
+{
+    return m_scan_state;
+}
+
 void user_interface::on_update_dmesg()
 {
     emit signal_run_dmesg();
@@ -40,6 +45,23 @@ void user_interface::on_shutdown_system()
 void user_interface::on_change_filter_text(const QString &value)
 {
     emit signal_change_filter_text(value);
+}
+
+void user_interface::on_start_scan()
+{
+    emit signal_start_scan();
+}
+
+void user_interface::on_stop_scan()
+{
+    emit signal_stop_scan();
+}
+
+void user_interface::slot_scan_finished()
+{
+    m_scan_state = "finished";
+
+    emit signal_scan_state();
 }
 
 void user_interface::slot_system_time_update()

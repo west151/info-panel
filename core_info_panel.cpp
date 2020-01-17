@@ -94,6 +94,18 @@ bool core_info_panel::initialization()
     connect(this, &core_info_panel::signal_start,
             ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::slot_start_workers);
 
+    // start scan
+    connect(ptr_user_interface, &user_interface::signal_start_scan,
+            ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::slot_start_scan);
+
+    // stop scan
+    connect(ptr_user_interface, &user_interface::signal_stop_scan,
+            ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::slot_stop_scan);
+
+    // scan finished
+    connect(ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::signal_scan_finished,
+            ptr_user_interface, &user_interface::slot_scan_finished);
+
     ptr_bluetooth_discovery_thread->start();
 
     return status;

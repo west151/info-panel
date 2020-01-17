@@ -18,12 +18,14 @@ public:
 signals:
     void signal_result_system_info(const system_info &);
     void signal_bluetooth_device_info(const bluetooth_device_info &);
+    void signal_scan_finished();
 
 public slots:
     void slot_start_workers();
+    void slot_start_scan();
+    void slot_stop_scan();
 
 private slots:
-    void slot_start_scan();
     void slot_scan_finished();
     void slot_add_device(const QBluetoothDeviceInfo &);
 

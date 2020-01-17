@@ -1,6 +1,43 @@
 import QtQuick 2.4
 
 BluetoothDiscoveryForm {
+    id: id_bluetooth_discovery_form
+
+    btn_scan_device {
+        id: id_btn_scan_device
+        //state: user_interface.scan_state
+        onClicked: {
+            user_interface.on_start_scan()
+            id_btn_scan_device.state = "scan"
+            console.log(" something happened " + user_interface.scan_state);
+        }
+
+        states: [
+            State {
+                name: "scan";
+                PropertyChanges {
+                    target: id_btn_scan_device;
+                    enabled: false;
+                }
+            },
+            State {
+                name: "finished";
+                PropertyChanges {
+                    target: id_btn_scan_device;
+                    enabled: true;
+                }
+            }
+        ]
+    }
+
+    Connections {
+        target: user_interface
+        onSignal_scan_state: {
+            console.log(" something happened " + user_interface.scan_state);
+//            id_btn_scan_device.state = "scan"
+            id_btn_scan_device.state = user_interface.scan_state
+        }
+    }
 
     list_device_view {
         clip: true
