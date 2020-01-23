@@ -2,8 +2,13 @@
 
 #include <QTimer>
 
+#ifdef QT_DEBUG
+#include <QDebug>
+#endif
+
 user_interface::user_interface(QObject *parent) : QObject(parent),
-    m_timer(new QTimer(this))
+    m_timer(new QTimer(this)),
+    is_power_state(false)
 {
     connect(m_timer, &QTimer::timeout,
             this, &user_interface::slot_system_time_update);
@@ -25,6 +30,11 @@ QString user_interface::system_time() const
 QString user_interface::scan_state() const
 {
     return m_scan_state;
+}
+
+bool user_interface::power_state() const
+{
+    return is_power_state;
 }
 
 void user_interface::on_update_dmesg()
@@ -57,11 +67,23 @@ void user_interface::on_stop_scan()
     emit signal_stop_scan();
 }
 
+void user_interface::on_power_ctrl(const bool &value)
+{
+    emit signal_power_ctrl(value);
+}
+
 void user_interface::slot_scan_finished()
 {
     m_scan_state = "finished";
 
     emit signal_scan_state();
+}
+
+void user_interface::slot_power_state(const bool &value)
+{
+    is_power_state = value;
+
+    emit signal_power_state();
 }
 
 void user_interface::slot_system_time_update()

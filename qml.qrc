@@ -25,5 +25,7 @@
         <file>qml/DMesgViewerForm.ui.qml</file>
         <file>qml/BluetoothDiscovery.qml</file>
         <file>qml/BluetoothDiscoveryForm.ui.qml</file>
+        <file>qml/CpuUsage.qml</file>
+        <file>qml/CpuUsageForm.ui.qml</file>
     </qresource>
 </RCC>

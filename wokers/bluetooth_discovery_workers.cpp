@@ -13,50 +13,62 @@ QString QtEnumToString (const QEnum value)
 }
 
 bluetooth_discovery_workers::bluetooth_discovery_workers(QObject *parent) : QObject(parent),
-    local_device(new QBluetoothLocalDevice(this))
+    m_local_device(new QBluetoothLocalDevice(this))
 {
     qRegisterMetaType<QBluetoothDeviceInfo>("QBluetoothDeviceInfo");
 
-    discovery_agent = new QBluetoothDeviceDiscoveryAgent(this);
+    m_discovery_agent = new QBluetoothDeviceDiscoveryAgent(this);
     // discovery_agent->setInquiryType(QBluetoothDeviceDiscoveryAgent::GeneralUnlimitedInquiry);
 
-    connect(discovery_agent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
+    connect(m_discovery_agent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
             this, &bluetooth_discovery_workers::slot_add_device);
 
-    connect(discovery_agent, &QBluetoothDeviceDiscoveryAgent::finished,
+    connect(m_discovery_agent, &QBluetoothDeviceDiscoveryAgent::finished,
             this, &bluetooth_discovery_workers::slot_scan_finished);
 
+    connect(m_local_device, &QBluetoothLocalDevice::hostModeStateChanged,
+            this, &bluetooth_discovery_workers::slot_host_mode_state_changed);
 }
 
 void bluetooth_discovery_workers::slot_start_workers()
 {
 #ifdef QT_DEBUG
-    qDebug() << tr("Bluetooth Local Device:") << local_device->address();
+    qDebug() << tr("Bluetooth Local Device:") << m_local_device->address();
 #endif
 
-//    discovery_agent->start();
+    slot_host_mode_state_changed(m_local_device->hostMode());
 }
 
 void bluetooth_discovery_workers::slot_start_scan()
 {
-    discovery_agent->start();
+    m_discovery_agent->start();
 }
 
 void bluetooth_discovery_workers::slot_stop_scan()
 {
-    if(discovery_agent->isActive())
-        discovery_agent->stop();
+    if(m_discovery_agent->isActive())
+        m_discovery_agent->stop();
+}
+
+void bluetooth_discovery_workers::slot_power_ctrl(const bool &power_ctrl)
+{
+    if (power_ctrl)
+        m_local_device->powerOn();
+    else
+        m_local_device->setHostMode(QBluetoothLocalDevice::HostPoweredOff);
+
+#ifdef QT_DEBUG
+    qDebug() << tr("receive power_ctrl:") << power_ctrl;
+#endif
 }
 
 void bluetooth_discovery_workers::slot_scan_finished()
 {
-#ifdef QT_DEBUG
-    qDebug() << tr("===================== scan finished =====================");
-#endif
-
-    // discovery_agent->start();
-
     emit signal_scan_finished();
+
+#ifdef QT_DEBUG
+    qDebug() << tr("scan finished");
+#endif
 }
 
 void bluetooth_discovery_workers::slot_add_device(const QBluetoothDeviceInfo &info)
@@ -67,6 +79,25 @@ void bluetooth_discovery_workers::slot_add_device(const QBluetoothDeviceInfo &in
     data.set_name(info.name());
 
     emit signal_bluetooth_device_info(data);
+
+#ifdef QT_DEBUG
+    qDebug() << tr("Bluetooth Device Info:");
+    qDebug() << data.address();
+    qDebug() << data.name();
+    qDebug() << tr("**********************");
+#endif
+}
+
+void bluetooth_discovery_workers::slot_host_mode_state_changed(QBluetoothLocalDevice::HostMode mode)
+{
+#ifdef QT_DEBUG
+    qDebug() << tr("host mode state changed:") << QtEnumToString(mode);
+#endif
+
+    if (mode != QBluetoothLocalDevice::HostPoweredOff)
+        emit signal_power_state(true);
+    else
+        emit signal_power_state(false);
 }
 
 QStringList bluetooth_discovery_workers::service_classes_descr(const QBluetoothDeviceInfo::ServiceClasses &service_info) const

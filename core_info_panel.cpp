@@ -10,11 +10,13 @@
 #include "model/message_log_model.h"
 #include "model/sort_filter_proxy_model.h"
 #include "model/bluetooth_device_model.h"
+#include "model/cpu_usage_model.h"
 
 #include "wokers/system_info_workers.h"
 #include "wokers/dmesg_process_wokers.h"
 #include "wokers/system_ctrl_workers.h"
 #include "wokers/bluetooth_discovery_workers.h"
+#include "wokers/cpu_usage_workers.h"
 
 #ifdef QT_DEBUG
 #include <QDebug>
@@ -25,7 +27,8 @@ core_info_panel::core_info_panel(QObject *parent) : QObject(parent),
     ptr_system_info_model(new system_info_model(this)),
     ptr_message_log_model(new message_log_model(this)),
     ptr_sort_filter_proxy_model(new sort_filter_proxy_model(this)),
-    ptr_bluetooth_device_model(new bluetooth_device_model(this))
+    ptr_bluetooth_device_model(new bluetooth_device_model(this)),
+    ptr_cpu_usage_model(new cpu_usage_model(this))
 {
     qRegisterMetaType<system_info>("system_info");
     qRegisterMetaType<message_log>("message_log");
@@ -106,7 +109,29 @@ bool core_info_panel::initialization()
     connect(ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::signal_scan_finished,
             ptr_user_interface, &user_interface::slot_scan_finished);
 
+    // power state
+    connect(ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::signal_power_state,
+            ptr_user_interface, &user_interface::slot_power_state);
+
+    // power control
+    connect(ptr_user_interface, &user_interface::signal_power_ctrl,
+            ptr_bluetooth_discovery_workers, &bluetooth_discovery_workers::slot_power_ctrl);
+
     ptr_bluetooth_discovery_thread->start();
+
+    // cpu usage
+    ptr_cpu_usage_workers = new cpu_usage_workers;
+    ptr_cpu_usage_thread = new QThread;
+    ptr_cpu_usage_workers->moveToThread(ptr_cpu_usage_thread);
+
+    connect(this, &core_info_panel::signal_start,
+            ptr_cpu_usage_workers, &cpu_usage_workers::slot_start_workers);
+
+    //ptr_cpu_usage_model
+    connect(ptr_cpu_usage_workers, &cpu_usage_workers::signal_result_cpu_usage,
+            ptr_cpu_usage_model, &cpu_usage_model::slot_add_data_to_model);
+
+    ptr_cpu_usage_thread->start();
 
     return status;
 }
@@ -123,6 +148,7 @@ void core_info_panel::program_launch(bool is_init_state)
     context->setContextProperty("message_log_model", ptr_message_log_model);
     context->setContextProperty("sort_filter_proxy_model", ptr_sort_filter_proxy_model);
     context->setContextProperty("bluetooth_device_model", ptr_bluetooth_device_model);
+    context->setContextProperty("cpu_usage_model", ptr_cpu_usage_model);
 
     ptr_engine->load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 

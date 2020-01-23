@@ -17,6 +17,7 @@ HEADERS += \
     core_info_panel.h \
     model/bluetooth_device_info.h \
     model/bluetooth_device_model.h \
+    model/cpu_usage_model.h \
     model/message_log.h \
     model/message_log_model.h \
     model/sort_filter_proxy_model.h \
@@ -24,6 +25,7 @@ HEADERS += \
     model/system_info_model.h \
     model/user_interface.h \
     shared/local_const.h \
+    wokers/cpu_usage_workers.h \
     wokers/dmesg_process_wokers.h \
     wokers/system_ctrl_workers.h \
     wokers/system_info_workers.h \
@@ -34,12 +36,14 @@ SOURCES += \
     info_panel.cpp \
     model/bluetooth_device_info.cpp \
     model/bluetooth_device_model.cpp \
+    model/cpu_usage_model.cpp \
     model/message_log.cpp \
     model/message_log_model.cpp \
     model/sort_filter_proxy_model.cpp \
     model/system_info.cpp \
     model/system_info_model.cpp \
     model/user_interface.cpp \
+    wokers/cpu_usage_workers.cpp \
     wokers/dmesg_process_wokers.cpp \
     wokers/system_ctrl_workers.cpp \
     wokers/system_info_workers.cpp \

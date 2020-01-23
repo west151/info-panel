@@ -31,6 +31,9 @@ ApplicationWindow {
         BluetoothDiscovery {
             id: id_bluetooth_discovery
         }
+
+        CpuUsage {
+        }
     }
 
     footer: TabBar {
@@ -47,6 +50,10 @@ ApplicationWindow {
 
         TabButton {
             text: qsTr("Bluetooth")
+        }
+
+        TabButton {
+            text: qsTr("CPU usage")
         }
     }
 

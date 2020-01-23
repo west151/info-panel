@@ -3,28 +3,44 @@ import QtQuick 2.4
 BluetoothDiscoveryForm {
     id: id_bluetooth_discovery_form
 
+//    console.log("cbx_power_device.onCheckedChanged: " + cbx_power_device.checked)
+
+    cbx_power_device.onCheckedChanged: {
+        user_interface.on_power_ctrl(cbx_power_device.checked)
+    }
+
+//    cbx_power_device.checked: {
+//        state: user_interface.power_state
+//    }
+
+    Connections {
+        target: user_interface
+        onSignal_power_state: {
+            cbx_power_device.checked = user_interface.power_state
+        }
+    }
+
     btn_scan_device {
-        id: id_btn_scan_device
-        //state: user_interface.scan_state
         onClicked: {
             user_interface.on_start_scan()
-            id_btn_scan_device.state = "scan"
-            console.log(" something happened " + user_interface.scan_state);
+            btn_scan_device.state = "scan"
         }
 
         states: [
             State {
                 name: "scan";
                 PropertyChanges {
-                    target: id_btn_scan_device;
+                    target: btn_scan_device;
                     enabled: false;
+                    text: qsTr("Scanning");
                 }
             },
             State {
                 name: "finished";
                 PropertyChanges {
-                    target: id_btn_scan_device;
+                    target: btn_scan_device;
                     enabled: true;
+                    text: qsTr("Scan")
                 }
             }
         ]
@@ -33,9 +49,7 @@ BluetoothDiscoveryForm {
     Connections {
         target: user_interface
         onSignal_scan_state: {
-            console.log(" something happened " + user_interface.scan_state);
-//            id_btn_scan_device.state = "scan"
-            id_btn_scan_device.state = user_interface.scan_state
+            btn_scan_device.state = user_interface.scan_state
         }
     }
 
