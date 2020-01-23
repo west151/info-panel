@@ -1,6 +1,7 @@
 #include "cpu_usage_workers.h"
 #include <QFile>
 #include <QTimer>
+#include <QTextStream>
 
 #ifdef QT_DEBUG
 #include <QDebug>
