@@ -34,6 +34,10 @@ ApplicationWindow {
 
         CpuUsage {
         }
+
+        ProcessMonitor {
+
+        }
     }
 
     footer: TabBar {
@@ -54,6 +58,10 @@ ApplicationWindow {
 
         TabButton {
             text: qsTr("CPU usage")
+        }
+
+        TabButton {
+            text: qsTr("Monitor")
         }
     }
 

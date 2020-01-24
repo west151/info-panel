@@ -11,13 +11,15 @@ class system_info_model;
 class message_log_model;
 class sort_filter_proxy_model;
 class bluetooth_device_model;
+class cpu_usage_model;
+class process_model;
 
 class system_info_workers;
 class dmesg_process_wokers;
 class system_ctrl_workers;
 class bluetooth_discovery_workers;
 class cpu_usage_workers;
-class cpu_usage_model;
+class ps_process_wokers;
 
 class core_info_panel : public QObject
 {
@@ -45,6 +47,7 @@ private:
     sort_filter_proxy_model* ptr_sort_filter_proxy_model {Q_NULLPTR};
     bluetooth_device_model* ptr_bluetooth_device_model {Q_NULLPTR};
     cpu_usage_model* ptr_cpu_usage_model {Q_NULLPTR};
+    process_model* ptr_process_model {Q_NULLPTR};
 
     system_info_workers* ptr_system_info_workers {Q_NULLPTR};
     QPointer<QThread> ptr_system_info_thread;
@@ -60,6 +63,9 @@ private:
 
     cpu_usage_workers* ptr_cpu_usage_workers {Q_NULLPTR};
     QPointer<QThread> ptr_cpu_usage_thread;
+
+    ps_process_wokers* ptr_ps_process_wokers {Q_NULLPTR};
+    QPointer<QThread> ptr_ps_process_thread;
 
     QQmlApplicationEngine* ptr_engine {Q_NULLPTR};
 };

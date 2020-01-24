@@ -16,6 +16,13 @@ bluetooth_discovery_workers::bluetooth_discovery_workers(QObject *parent) : QObj
     m_local_device(new QBluetoothLocalDevice(this))
 {
     qRegisterMetaType<QBluetoothDeviceInfo>("QBluetoothDeviceInfo");
+}
+
+void bluetooth_discovery_workers::slot_start_workers()
+{
+#ifdef QT_DEBUG
+    qDebug() << tr("Bluetooth Local Device:") << m_local_device->address();
+#endif
 
     m_discovery_agent = new QBluetoothDeviceDiscoveryAgent(this);
     // discovery_agent->setInquiryType(QBluetoothDeviceDiscoveryAgent::GeneralUnlimitedInquiry);
@@ -28,13 +35,6 @@ bluetooth_discovery_workers::bluetooth_discovery_workers(QObject *parent) : QObj
 
     connect(m_local_device, &QBluetoothLocalDevice::hostModeStateChanged,
             this, &bluetooth_discovery_workers::slot_host_mode_state_changed);
-}
-
-void bluetooth_discovery_workers::slot_start_workers()
-{
-#ifdef QT_DEBUG
-    qDebug() << tr("Bluetooth Local Device:") << m_local_device->address();
-#endif
 
     slot_host_mode_state_changed(m_local_device->hostMode());
 }

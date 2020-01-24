@@ -11,12 +11,14 @@
 #include "model/sort_filter_proxy_model.h"
 #include "model/bluetooth_device_model.h"
 #include "model/cpu_usage_model.h"
+#include "model/process_model.h"
 
 #include "wokers/system_info_workers.h"
 #include "wokers/dmesg_process_wokers.h"
 #include "wokers/system_ctrl_workers.h"
 #include "wokers/bluetooth_discovery_workers.h"
 #include "wokers/cpu_usage_workers.h"
+#include "wokers/ps_process_wokers.h"
 
 #ifdef QT_DEBUG
 #include <QDebug>
@@ -28,7 +30,8 @@ core_info_panel::core_info_panel(QObject *parent) : QObject(parent),
     ptr_message_log_model(new message_log_model(this)),
     ptr_sort_filter_proxy_model(new sort_filter_proxy_model(this)),
     ptr_bluetooth_device_model(new bluetooth_device_model(this)),
-    ptr_cpu_usage_model(new cpu_usage_model(this))
+    ptr_cpu_usage_model(new cpu_usage_model(this)),
+    ptr_process_model(new process_model(this))
 {
     qRegisterMetaType<system_info>("system_info");
     qRegisterMetaType<message_log>("message_log");
@@ -36,6 +39,7 @@ core_info_panel::core_info_panel(QObject *parent) : QObject(parent),
     qRegisterMetaType<sys_ctrl_cmd>("sys_ctrl_cmd");
     qRegisterMetaType<data_log_type>("data_log_type");
     qRegisterMetaType<bluetooth_device_info>("bluetooth_device_info");
+    qRegisterMetaType<process_info>("process_info");
 
     ptr_sort_filter_proxy_model->setSourceModel(ptr_message_log_model);    
 
@@ -45,6 +49,10 @@ core_info_panel::core_info_panel(QObject *parent) : QObject(parent),
 
 bool core_info_panel::initialization()
 {
+#ifdef QT_DEBUG
+    qDebug() << "start: initialization";
+#endif
+
     bool status(false);
 
     ptr_system_info_workers = new system_info_workers;
@@ -59,6 +67,7 @@ bool core_info_panel::initialization()
 
     ptr_system_info_thread->start();
 
+    // ***************************
     // dmesg process
     ptr_dmesg_process_wokers = new dmesg_process_wokers;
     ptr_dmesg_process_thread = new QThread;
@@ -81,6 +90,7 @@ bool core_info_panel::initialization()
 
     ptr_dmesg_process_thread->start();
 
+    // ***************************
     // bluetooth discovery
     ptr_bluetooth_discovery_workers = new bluetooth_discovery_workers;
     ptr_bluetooth_discovery_thread = new QThread;
@@ -119,6 +129,7 @@ bool core_info_panel::initialization()
 
     ptr_bluetooth_discovery_thread->start();
 
+    // ***************************
     // cpu usage
     ptr_cpu_usage_workers = new cpu_usage_workers;
     ptr_cpu_usage_thread = new QThread;
@@ -133,11 +144,34 @@ bool core_info_panel::initialization()
 
     ptr_cpu_usage_thread->start();
 
+    // ***************************
+    // ps process
+    ptr_ps_process_wokers = new ps_process_wokers;
+    ptr_ps_process_thread = new QThread;
+    ptr_ps_process_wokers->moveToThread(ptr_ps_process_thread);
+
+    connect(this, &core_info_panel::signal_start,
+            ptr_ps_process_wokers, &ps_process_wokers::slot_start_workers);
+
+    connect(ptr_ps_process_wokers, &ps_process_wokers::signal_process_info_data,
+            ptr_process_model, &process_model::slot_add_data_to_model);
+
+    ptr_ps_process_thread->start();
+
+#ifdef QT_DEBUG
+    qDebug() << "end: initialization";
+    qDebug() << "status initialization:" << status;
+#endif
+
     return status;
 }
 
 void core_info_panel::program_launch(bool is_init_state)
 {
+#ifdef QT_DEBUG
+    qDebug() << "start: program launch";
+#endif
+
     Q_UNUSED(is_init_state)
 
     ptr_engine = new QQmlApplicationEngine(this);
@@ -149,12 +183,17 @@ void core_info_panel::program_launch(bool is_init_state)
     context->setContextProperty("sort_filter_proxy_model", ptr_sort_filter_proxy_model);
     context->setContextProperty("bluetooth_device_model", ptr_bluetooth_device_model);
     context->setContextProperty("cpu_usage_model", ptr_cpu_usage_model);
+    context->setContextProperty("process_model", ptr_process_model);
 
     ptr_engine->load(QUrl(QLatin1String("qrc:/qml/main.qml")));
 
     ptr_user_interface->start();
 
     QTimer::singleShot(1000, this, &core_info_panel::signal_start);
+
+#ifdef QT_DEBUG
+    qDebug() << "end: initialization";
+#endif
 }
 
 void core_info_panel::slot_filter_text_changed(const QString &value)

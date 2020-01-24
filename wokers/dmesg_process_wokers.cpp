@@ -50,10 +50,6 @@ void dmesg_process_wokers::slot_ready_read_standard_output()
 
 void dmesg_process_wokers::slot_run_dmesg()
 {
-#ifdef QT_DEBUG
-    qDebug() << tr("Запуск программы dmesg ...");
-#endif
-
     QObject *parent = new QObject;
     QString program = "dmesg";
     QProcess *ptr_process = new QProcess(parent);

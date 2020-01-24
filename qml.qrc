@@ -27,5 +27,7 @@
         <file>qml/BluetoothDiscoveryForm.ui.qml</file>
         <file>qml/CpuUsage.qml</file>
         <file>qml/CpuUsageForm.ui.qml</file>
+        <file>qml/ProcessMonitor.qml</file>
+        <file>qml/ProcessMonitorForm.ui.qml</file>
     </qresource>
 </RCC>
