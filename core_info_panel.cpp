@@ -39,7 +39,7 @@ core_info_panel::core_info_panel(QObject *parent) : QObject(parent),
     qRegisterMetaType<sys_ctrl_cmd>("sys_ctrl_cmd");
     qRegisterMetaType<data_log_type>("data_log_type");
     qRegisterMetaType<bluetooth_device_info>("bluetooth_device_info");
-    qRegisterMetaType<process_info>("process_info");
+    qRegisterMetaType<QVector<process_info> >("QVector<process_info>");
 
     ptr_sort_filter_proxy_model->setSourceModel(ptr_message_log_model);    
 
@@ -155,9 +155,6 @@ bool core_info_panel::initialization()
 
     connect(ptr_ps_process_wokers, &ps_process_wokers::signal_process_info_data,
             ptr_process_model, &process_model::slot_add_data_to_model);
-
-    connect(ptr_ps_process_wokers, &ps_process_wokers::signal_finished,
-            ptr_process_model, &process_model::slot_remove_data_from_model);
 
     ptr_ps_process_thread->start();
 

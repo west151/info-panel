@@ -4,6 +4,7 @@ class process_info_data : public QSharedData {
 public:
     process_info_data(): QSharedData()
     {
+        m_time_update = QTime::currentTime();
         m_user.clear();
         m_pid = 0;
         m_cpu_usage = 0.0;
@@ -12,6 +13,7 @@ public:
     }
     process_info_data(const process_info_data &other) : QSharedData(other)
     {
+        m_time_update = other.m_time_update;
         m_user = other.m_user;
         m_pid = other.m_pid;
         m_cpu_usage = other.m_cpu_usage;
@@ -21,6 +23,7 @@ public:
 
     ~process_info_data() {}
 
+    QTime m_time_update;
     QString m_user;
     int m_pid;
     float m_cpu_usage;
@@ -46,6 +49,11 @@ process_info &process_info::operator=(const process_info &rhs)
 
 process_info::~process_info()
 {
+}
+
+QTime process_info::time_update() const
+{
+    return data->m_time_update;
 }
 
 void process_info::set_user(const QString &value)

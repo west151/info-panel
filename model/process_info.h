@@ -3,6 +3,7 @@
 
 #include <QSharedData>
 #include <QMetaType>
+#include <QTime>
 
 class process_info_data;
 
@@ -13,6 +14,8 @@ public:
     process_info(const process_info &);
     process_info &operator=(const process_info &);
     ~process_info();
+
+    QTime time_update()const;
 
     void set_user(const QString &);
     QString user()const;

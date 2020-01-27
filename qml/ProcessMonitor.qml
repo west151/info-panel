@@ -32,7 +32,14 @@ ProcessMonitorForm {
                 id: id_row
                 anchors.verticalCenter: parent.verticalCenter
                 width: id_main_item.width
-                height: id_user.height
+                height: time_update.height
+
+                Text {
+                    id: id_time_update
+                    text: Qt.formatTime(time_update, "mm:ss.zzz")
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.pointSize: 13
+                }
 
                 Text {
                     id: id_user

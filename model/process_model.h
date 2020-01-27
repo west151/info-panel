@@ -10,7 +10,8 @@ class process_model : public QAbstractTableModel
     Q_OBJECT
 public:
     enum data_role {
-        DATAROLE_USER = Qt::UserRole + 1,
+        DATAROLE_TIME_UPDATE = Qt::UserRole + 1,
+        DATAROLE_USER,
         DATAROLE_PID,
         DATAROLE_CPU,
         DATAROLE_MEM,
@@ -18,6 +19,7 @@ public:
     };
 
     enum model_columns {
+        MC_TIME_UPDATE,
         MC_USER,
         MC_PID,
         MC_CPU,
@@ -36,14 +38,13 @@ public:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
 
 public slots:
-    void slot_add_data_to_model(const process_info &);
-    void slot_remove_data_from_model();
+    //void slot_add_data_to_model(const process_info &);
+    void slot_add_data_to_model(const QVector<process_info> &);
+    //void slot_remove_data_from_model();
 
 private:
     QMap<int, QString> m_columns_map;
     QVector<process_info> m_data;
-
-    bool is_pid(const process_info &);
 };
 
 #endif // PROCESS_MODEL_H

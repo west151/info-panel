@@ -77,7 +77,7 @@ void dmesg_process_wokers::slot_run_dmesg()
 #endif
     }else{
 #ifdef QT_DEBUG
-        qDebug() << tr("PID:") << ptr_process->pid() << ptr_process->processId() << ptr_process->program();
+        qDebug() << tr("pid:") << ptr_process->pid() << ptr_process->processId() << ptr_process->program();
 #endif
     }
 }
@@ -94,5 +94,5 @@ void dmesg_process_wokers::parser_line(const QString &value)
     data.set_message_log_id(tmp_line.mid(start, end + 1));
     data.set_message_log_text(tmp_line.remove(start, end + 1).trimmed());
 
-    emit signal_message_log_data(data);
+    //emit signal_message_log_data(data);
 }

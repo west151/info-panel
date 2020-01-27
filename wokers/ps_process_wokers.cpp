@@ -15,6 +15,7 @@ QString QtEnumToString (const QEnum value)
 ps_process_wokers::ps_process_wokers(QObject *parent) : QObject(parent)
 {
     m_timer = new QTimer(this);
+    m_min_cpu_usage = 1;
 
     connect(m_timer, &QTimer::timeout, this,
             &ps_process_wokers::slot_run_program);
@@ -22,17 +23,37 @@ ps_process_wokers::ps_process_wokers(QObject *parent) : QObject(parent)
 
 void ps_process_wokers::slot_start_workers()
 {
-    m_timer->start(1000);
+    m_timer->start(2000);
+}
+
+void ps_process_wokers::slot_current_pid(const QString &value)
+{
+    m_pid_current = value;
+}
+
+void ps_process_wokers::slot_min_cpu_usage(const float &value)
+{
+    m_min_cpu_usage = value;
 }
 
 void ps_process_wokers::slot_ready_read_standard_output()
 {
     QProcess *ptr_process = dynamic_cast<QProcess *>(sender());
 
+    QVector<process_info> result;
+
     while (ptr_process->canReadLine()) {
         const QString line = QString::fromLocal8Bit(ptr_process->readLine());
-        parser_line(line);
+        const auto data = parser_line(line);
+        if((data.pid() != 0)&&(data.cpu_usage() >= m_min_cpu_usage)){
+            result.append(data);
+            m_result_sending.append(data);
+        }
     }
+
+#ifdef QT_DEBUG
+    qDebug() << tr("QVector<process_info> result:") << result.size();
+#endif
 }
 
 void ps_process_wokers::slot_error(QProcess::ProcessError error)
@@ -48,7 +69,13 @@ void ps_process_wokers::slot_finished(int exit_code, QProcess::ExitStatus exit_s
 
 #ifdef QT_DEBUG
     qDebug() << tr("finished (%1):").arg(ptr_process->objectName()) << exit_code << QtEnumToString(exit_status);
+    qDebug() << m_result_sending.size();
 #endif
+
+    if(exit_status == QProcess::NormalExit)
+        emit signal_process_info_data(m_result_sending);
+
+    m_result_sending.clear();
 }
 
 void ps_process_wokers::slot_run_program()
@@ -84,8 +111,9 @@ void ps_process_wokers::slot_run_program()
 //    }
 }
 
-void ps_process_wokers::parser_line(const QString &value)
+process_info ps_process_wokers::parser_line(const QString &value) const
 {
+    process_info info;
     QString tmp_line(value);
     tmp_line.remove("\n");
 
@@ -93,22 +121,20 @@ void ps_process_wokers::parser_line(const QString &value)
     {
         const QList<QString> lines = tmp_line.simplified().split(' ');
 
-        process_info info;
         info.set_user(lines.at(0));
         info.set_pid(lines.at(1).toInt(0));
         info.set_cpu_usage(lines.at(2).toFloat(0));
         info.set_mem_usage(lines.at(3).toFloat(0));
         info.set_command(lines.at(10));
 
-        if(info.cpu_usage() > 5)
-            emit signal_process_info_data(info);
-
-//#ifdef QT_DEBUG
-//        qDebug() << lines.at(0)     // USER (string)
-//                 << lines.at(1)     // PID  (int)
-//                 << lines.at(2)     // %CPU (0.0)
-//                 << lines.at(3)     // %MEM (0.0)
-//                 << lines.at(10);   // COMMAND (string)
-//#endif
+        //#ifdef QT_DEBUG
+        //        qDebug() << lines.at(0)     // USER (string)
+        //                 << lines.at(1)     // PID  (int)
+        //                 << lines.at(2)     // %CPU (0.0)
+        //                 << lines.at(3)     // %MEM (0.0)
+        //                 << lines.at(10);   // COMMAND (string)
+        //#endif
     }
+
+    return info;
 }
