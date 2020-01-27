@@ -50,10 +50,6 @@ void ps_process_wokers::slot_ready_read_standard_output()
             m_result_sending.append(data);
         }
     }
-
-#ifdef QT_DEBUG
-    qDebug() << tr("QVector<process_info> result:") << result.size();
-#endif
 }
 
 void ps_process_wokers::slot_error(QProcess::ProcessError error)
@@ -69,7 +65,6 @@ void ps_process_wokers::slot_finished(int exit_code, QProcess::ExitStatus exit_s
 
 #ifdef QT_DEBUG
     qDebug() << tr("finished (%1):").arg(ptr_process->objectName()) << exit_code << QtEnumToString(exit_status);
-    qDebug() << m_result_sending.size();
 #endif
 
     if(exit_status == QProcess::NormalExit)

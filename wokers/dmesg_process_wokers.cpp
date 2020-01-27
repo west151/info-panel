@@ -17,11 +17,6 @@ dmesg_process_wokers::dmesg_process_wokers(QObject *parent) : QObject(parent)
 
 }
 
-void dmesg_process_wokers::slot_started()
-{
-
-}
-
 void dmesg_process_wokers::slot_error(QProcess::ProcessError error)
 {
 #ifdef QT_DEBUG
@@ -54,9 +49,6 @@ void dmesg_process_wokers::slot_run_dmesg()
     QString program = "dmesg";
     QProcess *ptr_process = new QProcess(parent);
     ptr_process->setObjectName(program);
-
-    connect(ptr_process, &QProcess::started,
-            this, &dmesg_process_wokers::slot_started );
 
     connect(ptr_process, &QProcess::readyReadStandardOutput,
             this, &dmesg_process_wokers::slot_ready_read_standard_output);
@@ -94,5 +86,5 @@ void dmesg_process_wokers::parser_line(const QString &value)
     data.set_message_log_id(tmp_line.mid(start, end + 1));
     data.set_message_log_text(tmp_line.remove(start, end + 1).trimmed());
 
-    //emit signal_message_log_data(data);
+    emit signal_message_log_data(data);
 }

@@ -19,7 +19,6 @@ public slots:
     void slot_run_dmesg();
 
 private slots:
-    void slot_started();
     void slot_ready_read_standard_output();
     void slot_error(QProcess::ProcessError error);
     void slot_finished(int exit_code, QProcess::ExitStatus exit_status);
