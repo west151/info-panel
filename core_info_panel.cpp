@@ -156,6 +156,9 @@ bool core_info_panel::initialization()
     connect(ptr_ps_process_wokers, &ps_process_wokers::signal_process_info_data,
             ptr_process_model, &process_model::slot_add_data_to_model);
 
+    connect(ptr_ps_process_wokers, &ps_process_wokers::signal_finished,
+            ptr_process_model, &process_model::slot_remove_data_from_model);
+
     ptr_ps_process_thread->start();
 
 #ifdef QT_DEBUG

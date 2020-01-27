@@ -38,14 +38,14 @@ ProcessMonitorForm {
                     id: id_user
                     text: user
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 10
+                    font.pointSize: 13
                 }
 
                 Text {
                     id: id_pid
                     text: pid
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 10
+                    font.pointSize: 13
                 }
 
                 Text {
@@ -53,21 +53,21 @@ ProcessMonitorForm {
                     text: Number(cpu).toLocaleString(Qt.locale(), "f", 1)  + " %"
                     wrapMode: Text.WordWrap
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 10
+                    font.pointSize: 13
                 }
                 Text {
                     id: id_mem
                     text: Number(mem).toLocaleString(Qt.locale(), "f", 1)  + " %"
                     wrapMode: Text.WordWrap
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 10
+                    font.pointSize: 13
                 }
                 Text {
                     id: id_command
                     text: command
                     wrapMode: Text.WordWrap
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 10
+                    font.pointSize: 13
                 }
                 spacing: 10
             }

@@ -16,6 +16,7 @@ public:
 
 signals:
     void signal_process_info_data(const process_info &);
+    void signal_finished();
 
 public slots:
     void slot_start_workers();

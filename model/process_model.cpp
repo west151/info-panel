@@ -121,7 +121,7 @@ void process_model::slot_add_data_to_model(const process_info &value)
 
 void process_model::slot_remove_data_from_model()
 {
-    if(m_data.size()>0) {
+    if(m_data.size() > 0) {
         beginRemoveRows(QModelIndex(), 0, m_data.size() - 1);
         m_data.clear();
         endRemoveRows();
