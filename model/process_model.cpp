@@ -142,7 +142,7 @@ void process_model::slot_add_data_to_model(const QVector<process_info> &values)
                 }
 
                 if(item_model.time_update().secsTo(QTime::currentTime()) >= 4){
-                    qDebug() << item_model.time_update().secsTo(QTime::currentTime());
+                    // qDebug() << item_model.time_update().secsTo(QTime::currentTime());
                     beginResetModel();
                     m_data.remove(q);
                     endResetModel();
