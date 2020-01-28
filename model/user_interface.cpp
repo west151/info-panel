@@ -72,6 +72,16 @@ void user_interface::on_power_ctrl(const bool &value)
     emit signal_power_ctrl(value);
 }
 
+void user_interface::on_min_cpu_usage(const float &value)
+{
+    emit signal_min_cpu_usage(value);
+}
+
+void user_interface::on_current_pid(const int &value)
+{
+    emit signal_current_pid(value);
+}
+
 void user_interface::slot_scan_finished()
 {
     m_scan_state = "finished";

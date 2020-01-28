@@ -2,6 +2,24 @@ import QtQuick 2.4
 
 ProcessMonitorForm {
 
+
+    pid_text_edit {
+        inputMethodHints: Qt.ImhDigitsOnly
+        placeholderText: qsTr("Enter pid")
+        onTextChanged: {
+            console.log("onTextChanged: " + pid_text_edit.text)
+            console.log("onTextChanged: " + pid_text_edit.text.length)
+            user_interface.on_current_pid(pid_text_edit.text)
+        }
+    }
+
+    cpu_spin_box {
+        onValueChanged: {
+            console.log("onToChanged: " + cpu_spin_box.value)
+            user_interface.on_min_cpu_usage(cpu_spin_box.value)
+        }
+    }
+
     list_view_process_monitor {
         clip: true
         focus: true
@@ -80,64 +98,4 @@ ProcessMonitorForm {
             }
         }
     }
-
-
-
-
-//    list_device_view {
-//        clip: true
-//        focus: true
-//        model: bluetooth_device_model
-//        delegate: id_view_delegate
-
-//        onCountChanged: {
-//            list_device_view.positionViewAtEnd()
-//        }
-//    }
-
-//    Component {
-//        id: id_view_delegate
-
-//        Item {
-//            id: id_main_item
-//            x: 5
-//            width: list_device_view.width
-//            height: id_name.height
-
-//            Rectangle {
-//                width: list_device_view.width
-//                height: id_main_item.height
-//                color: index % 2 == 0 ? "#00000000" : "#E4DDE8"
-//            }
-
-//            Row {
-//                id: row
-//                anchors.verticalCenter: parent.verticalCenter
-//                width: id_main_item.width
-
-//                Text {
-//                    id: id_date_time
-//                    text: Qt.formatDateTime(date_time, "hh:mm:ss" )
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    font.pointSize: 10
-//                }
-
-//                Text {
-//                    id: id_address
-//                    text: address
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    font.pointSize: 10
-//                }
-
-//                Text {
-//                    id: id_name
-//                    text: name
-//                    wrapMode: Text.WordWrap
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    font.pointSize: 10
-//                }
-//                spacing: 10
-//            }
-//        }
-//    }
 }

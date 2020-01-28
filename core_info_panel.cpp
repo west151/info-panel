@@ -4,6 +4,7 @@
 #include <QQmlContext>
 #include <QThread>
 #include <QTimer>
+#include <QElapsedTimer>
 
 #include "model/user_interface.h"
 #include "model/system_info_model.h"
@@ -50,6 +51,8 @@ core_info_panel::core_info_panel(QObject *parent) : QObject(parent),
 bool core_info_panel::initialization()
 {
 #ifdef QT_DEBUG
+    QElapsedTimer timer;
+    timer.start();
     qDebug() << "start: initialization";
 #endif
 
@@ -66,6 +69,10 @@ bool core_info_panel::initialization()
             ptr_system_info_workers, &system_info_workers::slot_start_workers);
 
     ptr_system_info_thread->start();
+
+#ifdef QT_DEBUG
+    qDebug() << "-> time init [system_info_workers]:" << timer.elapsed();
+#endif
 
     // ***************************
     // dmesg process
@@ -89,6 +96,10 @@ bool core_info_panel::initialization()
             ptr_system_ctrl_workers, &system_ctrl_workers::slot_run_ctrl);
 
     ptr_dmesg_process_thread->start();
+
+#ifdef QT_DEBUG
+    qDebug() << "-> time init [system_ctrl_workers]:" << timer.elapsed();
+#endif
 
     // ***************************
     // bluetooth discovery
@@ -129,6 +140,10 @@ bool core_info_panel::initialization()
 
     ptr_bluetooth_discovery_thread->start();
 
+#ifdef QT_DEBUG
+    qDebug() << "-> time init [bluetooth_discovery_workers]:" << timer.elapsed();
+#endif
+
     // ***************************
     // cpu usage
     ptr_cpu_usage_workers = new cpu_usage_workers;
@@ -144,6 +159,10 @@ bool core_info_panel::initialization()
 
     ptr_cpu_usage_thread->start();
 
+#ifdef QT_DEBUG
+    qDebug() << "-> time init [cpu_usage_workers]:" << timer.elapsed();
+#endif
+
     // ***************************
     // ps process
     ptr_ps_process_wokers = new ps_process_wokers;
@@ -156,11 +175,24 @@ bool core_info_panel::initialization()
     connect(ptr_ps_process_wokers, &ps_process_wokers::signal_process_info_data,
             ptr_process_model, &process_model::slot_add_data_to_model);
 
+    // cpu usage min
+    connect(ptr_user_interface, &user_interface::signal_min_cpu_usage,
+            ptr_ps_process_wokers, &ps_process_wokers::slot_min_cpu_usage);
+
+    // set pid
+    connect(ptr_user_interface, &user_interface::signal_current_pid,
+            ptr_ps_process_wokers, &ps_process_wokers::slot_current_pid);
+
     ptr_ps_process_thread->start();
+
+#ifdef QT_DEBUG
+    qDebug() << "-> time init [ps_process_wokers]:" << timer.elapsed();
+#endif
 
 #ifdef QT_DEBUG
     qDebug() << "end: initialization";
     qDebug() << "status initialization:" << status;
+    qDebug() << "time (milliseconds) initialization:" << timer.elapsed();
 #endif
 
     return status;

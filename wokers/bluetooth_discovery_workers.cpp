@@ -12,17 +12,19 @@ QString QtEnumToString (const QEnum value)
   return QString(QMetaEnum::fromType<QEnum>().valueToKey(value));
 }
 
-bluetooth_discovery_workers::bluetooth_discovery_workers(QObject *parent) : QObject(parent),
-    m_local_device(new QBluetoothLocalDevice(this))
+bluetooth_discovery_workers::bluetooth_discovery_workers(QObject *parent) : QObject(parent)
+
 {
     qRegisterMetaType<QBluetoothDeviceInfo>("QBluetoothDeviceInfo");
 }
 
 void bluetooth_discovery_workers::slot_start_workers()
 {
+    m_local_device = new QBluetoothLocalDevice(this);
+
 #ifdef QT_DEBUG
     qDebug() << tr("Bluetooth Local Device:") << m_local_device->address();
-#endif
+#endif    
 
     m_discovery_agent = new QBluetoothDeviceDiscoveryAgent(this);
     // discovery_agent->setInquiryType(QBluetoothDeviceDiscoveryAgent::GeneralUnlimitedInquiry);

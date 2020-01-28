@@ -20,7 +20,7 @@ signals:
 
 public slots:
     void slot_start_workers();
-    void slot_current_pid(const QString &);
+    void slot_current_pid(const int &);
     void slot_min_cpu_usage(const float &);
 
 private slots:
@@ -32,7 +32,7 @@ private slots:
 private:
     QTimer *m_timer;
     float m_min_cpu_usage;
-    QString m_pid_current;
+    int m_pid_current;
     QVector<process_info> m_result_sending;
 
     process_info parser_line(const QString &)const;

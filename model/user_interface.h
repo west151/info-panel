@@ -30,6 +30,8 @@ public:
     Q_INVOKABLE void on_start_scan();
     Q_INVOKABLE void on_stop_scan();
     Q_INVOKABLE void on_power_ctrl(const bool &);
+    Q_INVOKABLE void on_min_cpu_usage(const float &);
+    Q_INVOKABLE void on_current_pid(const int &);
 
 public slots:
     void slot_scan_finished();
@@ -45,6 +47,8 @@ signals:
     void signal_scan_state();
     void signal_power_state();
     void signal_power_ctrl(const bool &);
+    void signal_min_cpu_usage(const float &);
+    void signal_current_pid(const int &);
 
 private:
     QDateTime m_system_time;
