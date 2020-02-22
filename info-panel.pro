@@ -56,7 +56,7 @@ SOURCES += \
     wokers/bluetooth_discovery_workers.cpp
 
 RESOURCES += \
-    $$files(qml/*.qml) \
+    #$$files(qml/*.qml) \
     qml.qrc
 
 # Default rules for deployment.

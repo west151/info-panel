@@ -1,39 +1,57 @@
 import QtQuick 2.4
-import QtQuick.Controls 1.2
-import QtQuick.Dialogs 1.2
+import QtQuick.Controls 2.14
 
 InfoPanelForm {
 
-    btn_reboot_system.onClicked: {
-        id_reboot_dialog.visible = true
+    Dialog {
+        id: dialog_reboot
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        parent: ApplicationWindow.overlay
+        modal: true
+        title: qsTr("Reboot system")
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        Label {
+            text: qsTr("Restart the system now ?")
+        }
+
+        onAccepted: {
+            console.log("Ok clicked")
+            user_interface.on_reboot_system()
+        }
+        onRejected: {
+            console.log("Cancel clicked")
+        }
     }
 
-    MessageDialog {
-        id: id_reboot_dialog
-        title: qsTr("Reboot ?")
-        icon: StandardIcon.Question
-        text: qsTr("Restart the system now ?")
-        //detailedText: "" + ""
-        standardButtons: StandardButton.Yes | StandardButton.No
-        Component.onCompleted: visible = false
-        onYes: user_interface.on_reboot_system()
-        onNo: console.log("StandardButton.No")
+    btn_reboot_system.onClicked: {
+        dialog_reboot.visible = true
+    }
+
+    Dialog {
+        id: dialog_shutdown
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal: true
+        title: qsTr("Shutdown system")
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        Label {
+            text: qsTr("Shutdown the system now ?")
+        }
+
+        onAccepted: {
+            console.log("Ok clicked")
+            user_interface.on_shutdown_system()
+        }
+        onRejected: {
+            console.log("Cancel clicked")
+        }
     }
 
     btn_shutdown_system.onClicked: {
-        id_shutdown_dialog.visible = true
-    }
-
-    MessageDialog {
-        id: id_shutdown_dialog
-        title: qsTr("Shutdown ?")
-        icon: StandardIcon.Question
-        text: qsTr("Shutdown the system now ?")
-        //detailedText: "" + ""
-        standardButtons: StandardButton.Yes | StandardButton.No
-        Component.onCompleted: visible = false
-        onYes: user_interface.on_shutdown_system();
-        onNo: console.log("StandardButton.No")
+        dialog_shutdown.visible = true
     }
 
     system_dt_text {

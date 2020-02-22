@@ -36,8 +36,8 @@ void system_ctrl_workers::slot_run_ctrl(const sys_ctrl_cmd &cmd)
     QProcess *ptr_process = new QProcess(parent);
     ptr_process->setObjectName(program);
 
-    if(!arguments.isEmpty())
-        ptr_process->setArguments(arguments);
+//    if(!arguments.isEmpty())
+//        ptr_process->setArguments(arguments);
 
     connect(ptr_process, &QProcess::started,
             this, &system_ctrl_workers::slot_started );
@@ -48,7 +48,7 @@ void system_ctrl_workers::slot_run_ctrl(const sys_ctrl_cmd &cmd)
     connect(ptr_process, &QProcess::finished,
             this, &system_ctrl_workers::slot_finished);
 
-    ptr_process->start(program);
+    ptr_process->start(program, arguments);
 
     if(ptr_process->state() == QProcess::NotRunning)
     {

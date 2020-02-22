@@ -1,6 +1,7 @@
 #include "dmesg_process_wokers.h"
 
 #include <QMetaEnum>
+#include <QIODevice>
 
 #ifdef QT_DEBUG
 #include <QDebug>
@@ -47,6 +48,7 @@ void dmesg_process_wokers::slot_run_dmesg()
 {
     QObject *parent = new QObject;
     QString program = "dmesg";
+    QStringList arg;
     QProcess *ptr_process = new QProcess(parent);
     ptr_process->setObjectName(program);
 
@@ -59,19 +61,19 @@ void dmesg_process_wokers::slot_run_dmesg()
     connect(ptr_process, &QProcess::finished,
             this, &dmesg_process_wokers::slot_finished);
 
-    ptr_process->start(program);
+    ptr_process->start(program, arg);
 
-    if(ptr_process->state() == QProcess::NotRunning)
-    {
-#ifdef QT_DEBUG
-        qDebug() << ptr_process->errorString();
-        qDebug() << tr("environment:") << QProcess::systemEnvironment();
-#endif
-    }else{
-#ifdef QT_DEBUG
-        qDebug() << tr("pid:") << ptr_process->pid() << ptr_process->processId() << ptr_process->program();
-#endif
-    }
+//    if(ptr_process->state() == QProcess::NotRunning)
+//    {
+//#ifdef QT_DEBUG
+//        qDebug() << ptr_process->errorString();
+//        qDebug() << tr("environment:") << QProcess::systemEnvironment();
+//#endif
+//    }else{
+//#ifdef QT_DEBUG
+//        qDebug() << tr("pid:") << ptr_process->pid() << ptr_process->processId() << ptr_process->program();
+//#endif
+//    }
 }
 
 void dmesg_process_wokers::parser_line(const QString &value)

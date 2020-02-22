@@ -24,7 +24,8 @@ ps_process_wokers::ps_process_wokers(QObject *parent) : QObject(parent)
 
 void ps_process_wokers::slot_start_workers()
 {
-    m_timer->start(2000);
+    m_timer->setInterval(2000);
+    m_timer->start();
 }
 
 void ps_process_wokers::slot_current_pid(const int &value)
@@ -114,17 +115,17 @@ void ps_process_wokers::slot_run_program()
 
     ptr_process->start(program, arg);
 
-//    if(ptr_process->state() == QProcess::NotRunning)
-//    {
-//#ifdef QT_DEBUG
-//        qDebug() << ptr_process->errorString();
-//        qDebug() << tr("environment:") << QProcess::systemEnvironment();
-//#endif
-//    }else{
-//#ifdef QT_DEBUG
-//        qDebug() << tr("PID:") << ptr_process->pid() << ptr_process->processId() << ptr_process->program();
-//#endif
-//    }
+    if(ptr_process->state() == QProcess::NotRunning)
+    {
+#ifdef QT_DEBUG
+        qDebug() << ptr_process->errorString();
+        qDebug() << tr("environment:") << ptr_process->systemEnvironment();
+#endif
+    }else{
+#ifdef QT_DEBUG
+        qDebug() << tr("PID:") << ptr_process->pid() << ptr_process->processId() << ptr_process->program();
+#endif
+    }
 }
 
 process_info ps_process_wokers::parser_line(const QString &value) const
@@ -135,7 +136,7 @@ process_info ps_process_wokers::parser_line(const QString &value) const
 
     if(!value.contains("USER"))
     {
-        const QList<QString> lines = tmp_line.simplified().split(' ');
+        const QStringList lines = tmp_line.simplified().split(' ');
 
         info.set_user(lines.at(0).trimmed());
         info.set_pid(lines.at(1).toInt(0));
