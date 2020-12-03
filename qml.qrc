@@ -29,5 +29,6 @@
         <file>qml/CpuUsageForm.ui.qml</file>
         <file>qml/ProcessMonitor.qml</file>
         <file>qml/ProcessMonitorForm.ui.qml</file>
+        <file>icon/organization.png</file>
     </qresource>
 </RCC>

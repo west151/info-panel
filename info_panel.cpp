@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QFontDatabase>
+#include <QIcon>
 
 #ifdef QT_DEBUG
     #include <QDebug>
@@ -47,6 +48,7 @@ int main(int argc, char *argv[])
     // QLocale::setDefault(QLocale(QLocale::Russian, QLocale::Russia));
 
     QGuiApplication app(argc, argv);
+    app.setWindowIcon(QIcon("://icon/organization.png"));
 
     // fonts
     QFont font_old;
@@ -76,9 +78,13 @@ int main(int argc, char *argv[])
         qDebug() << QObject::tr("   height:") << screens.at(i)->availableSize().height();
     }
 #endif
+
     core_info_panel core;
     bool init_state = core.initialization();
     core.program_launch(init_state);
+
+    QObject::connect(&app, SIGNAL(aboutToQuit()),
+                     &core, SLOT(slot_exit_handler()));
 
     return app.exec();
 }

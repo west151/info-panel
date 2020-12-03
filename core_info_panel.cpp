@@ -228,6 +228,30 @@ void core_info_panel::program_launch(bool is_init_state)
 #endif
 }
 
+void core_info_panel::slot_exit_handler()
+{
+    if(ptr_system_info_thread->isRunning())
+        ptr_system_info_thread->exit();
+
+    if(ptr_dmesg_process_thread->isRunning())
+        ptr_dmesg_process_thread->exit();
+
+    if(ptr_system_ctrl_thread->isRunning())
+        ptr_system_ctrl_thread->exit();
+
+    if(ptr_bluetooth_discovery_thread->isRunning())
+        ptr_bluetooth_discovery_thread->exit();
+
+    if(ptr_ps_process_thread->isRunning())
+        ptr_ps_process_thread->exit();
+
+    if(ptr_bluetooth_discovery_thread->isRunning())
+        ptr_bluetooth_discovery_thread->exit();
+
+    if(ptr_cpu_usage_thread->isRunning())
+        ptr_cpu_usage_thread->exit();
+}
+
 void core_info_panel::slot_filter_text_changed(const QString &value)
 {
     QRegExp reg_exp(value.toLower(), Qt::CaseSensitive, QRegExp::FixedString);

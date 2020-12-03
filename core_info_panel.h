@@ -30,12 +30,13 @@ public:
     // read file settings
     bool initialization();
     // program launch
-    void program_launch(bool is_init_state);
+    void program_launch(bool is_init_state);    
 
 signals:
     void signal_start();
 
 public slots:
+    void slot_exit_handler();
 
 private slots:
     void slot_filter_text_changed(const QString &);
